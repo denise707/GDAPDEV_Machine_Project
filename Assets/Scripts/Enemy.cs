@@ -46,6 +46,11 @@ public class Enemy : MonoBehaviour
     {
         if (reachPlayer)
         {
+            if(this.type != "WASP")
+            {
+                animator.SetBool("Reached", true);
+            }
+            
             ticks += Time.deltaTime;
             if(ticks >= INTERVAL)
             {
