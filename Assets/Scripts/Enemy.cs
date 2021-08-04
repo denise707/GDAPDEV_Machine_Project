@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     private float damage = 20.0f;
     public Animator animator;
     public string type;
+    public bool move = false;
 
     //Attacking
     private bool reachPlayer = false;
@@ -30,8 +31,11 @@ public class Enemy : MonoBehaviour
     {
         if (transform.position.z > player.transform.position.z + 1.5)
         {
-            transform.LookAt(player.transform);    
-            transform.position += transform.forward * speed * Time.deltaTime;
+            if (move)
+            {
+                transform.LookAt(player.transform);
+                transform.position += transform.forward * speed * Time.deltaTime;
+            }           
         }
 
         else
@@ -39,7 +43,10 @@ public class Enemy : MonoBehaviour
             reachPlayer = true;
         }
 
-        Attack();
+        if (move)
+        {
+            Attack();
+        }       
     }
 
     private void Attack()
