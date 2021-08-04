@@ -6,6 +6,9 @@ public class EnemySpawner : MonoBehaviour
 {
     //Enemy Copies
     [SerializeField] private GameObject waspCopy;
+    [SerializeField] private GameObject metalArmCopy;
+    [SerializeField] private GameObject insectCopy;
+    [SerializeField] private GameObject mutantCopy;
 
     //Enemy List
     [SerializeField] public List<GameObject> enemyList;
@@ -13,16 +16,19 @@ public class EnemySpawner : MonoBehaviour
 
     //Spawn Locations
     [SerializeField] private List<GameObject> flyingLoc;
-    //[SerializeField] private List<GameObject> groundLoc;
+    [SerializeField] private List<GameObject> groundLoc;
 
-    public static int count;
+    public static int count = 0;
+    bool waveReleased = false;
+    int index = 0;
+    float ticks = 0.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        waspCopy.SetActive(false);
-
         enemyCopies.Add(waspCopy);
+        enemyCopies.Add(metalArmCopy);
+        enemyCopies.Add(insectCopy);
     }
 
     // Update is called once per frame
@@ -30,25 +36,50 @@ public class EnemySpawner : MonoBehaviour
     {
         if (GameSystem.next)
         {
-            for(int i = 0; i < 1; i++)
+            for (int i = 0; i < 5; i++)
             {
-                GameObject enemyCopy = enemyCopies[Random.Range(0, enemyCopies.Count - 1)];
+                GameObject enemyCopy = enemyCopies[Random.Range(0, enemyCopies.Count)];
                 Vector3 newLocation = GetLocation(enemyCopy)[Random.Range(0, GetLocation(enemyCopy).Count - 1)].transform.position;
                 enemyCopy = ObjectUtils.SpawnDefault(enemyCopy, this.transform.parent, newLocation);
-                enemyList.Add(enemyCopy);
                 enemyCopy.SetActive(true);
+                enemyList.Add(enemyCopy);                
             }
-            GameSystem.next = false;                    
+            GameSystem.next = false;
+            count = enemyList.Count;
+            waveReleased = false;
         }
-        
-        for(int i = 0; i < enemyList.Count; i++)
+
+        if (waveReleased)
         {
-            if(enemyList[i] == null)
+            for (int i = 0; i < enemyList.Count; i++)
             {
-                enemyList.RemoveAt(i);
+                if (enemyList[i] == null)
+                {
+                    enemyList.RemoveAt(i);
+                }
+            }
+            count = enemyList.Count;
+            if (count <= 0) index = 0;
+        }
+
+        if (index > 4)
+        {
+            waveReleased = true;
+        }
+
+        Debug.Log(ticks);
+
+        if (waveReleased == false)
+        {
+            ticks += Time.deltaTime;
+
+            if (ticks >= Random.Range(3.0f, 5.0f))
+            {
+                enemyList[index].GetComponent<Enemy>().move = true;
+                index++;
+                ticks = 0.0f;
             }
         }
-        count = enemyList.Count;
     }
 
     private List<GameObject> GetLocation(GameObject toSpawn)
@@ -59,7 +90,9 @@ public class EnemySpawner : MonoBehaviour
         {
             case "WASP":
                 location = this.flyingLoc;
-                break;              
+                break;
+            default: location = this.groundLoc;
+                break;
         }
 
         return location;
