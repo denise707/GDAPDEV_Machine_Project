@@ -54,6 +54,7 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
+        //weaponsys.UpdateMagazine();
         bulletFlash.Play();
         Ray ray = Camera.main.ScreenPointToRay(this.transform.position);
         RaycastHit hit;
@@ -75,7 +76,7 @@ public class Gun : MonoBehaviour
                 }
             }
         }
-
+        weaponsys.shoot = true;
         UICallback.shoot = false;
     }
     void ChangeGun()

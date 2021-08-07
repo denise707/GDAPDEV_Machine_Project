@@ -36,7 +36,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (GameSystem.next)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < Random.Range(5, 8); i++)
             {
                 GameObject enemyCopy = enemyCopies[Random.Range(0, enemyCopies.Count)];
                 Vector3 newLocation = GetLocation(enemyCopy)[Random.Range(0, GetLocation(enemyCopy).Count - 1)].transform.position;
@@ -67,13 +67,11 @@ public class EnemySpawner : MonoBehaviour
             waveReleased = true;
         }
 
-        Debug.Log(ticks);
-
         if (waveReleased == false)
         {
             ticks += Time.deltaTime;
 
-            if (ticks >= Random.Range(3.0f, 5.0f))
+            if (ticks >= Random.Range(1.0f, 5.0f))
             {
                 enemyList[index].GetComponent<Enemy>().move = true;
                 index++;

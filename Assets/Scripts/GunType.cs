@@ -6,6 +6,8 @@ public struct GunType
 {
     public string weaponName;
     public float damageAmount;
+    public int currentMagazine;
     public int magazineSize;
     public string color;
+    public bool available;
 }

@@ -11,6 +11,9 @@ public class GameSystem : MonoBehaviour
     //Player
     public static float Health = 100;
     [SerializeField] private GameObject healthBar;
+    
+    public static int score = 0;
+    [SerializeField] private GameObject scoreHolder;  
 
     //Level
     public static int stage = 1;
@@ -46,6 +49,13 @@ public class GameSystem : MonoBehaviour
             wave++;
         }
 
+        UpdateUI();
+    }
+
+    void UpdateUI()
+    {
         healthBar.GetComponent<Image>().fillAmount = Health / 100;
+        scoreHolder.GetComponent<Text>().text = score.ToString();
+        
     }
 }
