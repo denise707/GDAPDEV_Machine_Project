@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
                 animator.SetBool("Attack", true);
                 GameSystem.Health -= damage;
                 float health = GameSystem.Health;
-                Debug.Log(health);
+                //Debug.Log(health);
                 ticks = 0.0f;
             }
 
@@ -89,5 +89,6 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         Destroy(this.gameObject, 1);
+        GameSystem.score += 50;
     }
 }
