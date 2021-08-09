@@ -9,16 +9,19 @@ public class ShopSystem : MonoBehaviour
     [SerializeField] private Text CreditHolder;
     [SerializeField] private Text BillHolder;
 
+    //From other scripts
     protected WeaponSystem weaponsys;
     protected GameSystem gamesys;
 
+    //Buy and Upgrade Pop 
     [SerializeField] private GameObject Buy_Pop_Up;
     [SerializeField] private GameObject Upgrade_Pop_Up;
-    //[SerializeField] private GameObject Credit_Holder;
 
+    //Buy Button
     [SerializeField] private Button AWPButton_Buy;
     [SerializeField] private Button SixButton_Buy;
 
+    //Upgrade Button
     [SerializeField] private Button FAMASButton_Upgrade;
     [SerializeField] private Button AWPButton_Upgrade;
     [SerializeField] private Button SixButton_Upgrade;
@@ -70,7 +73,7 @@ public class ShopSystem : MonoBehaviour
         BillHolder.text = $"Total: {damage_cost}";
     }
 
-    //Buy Weapons
+    //----------------Start of Buy Weapons----------------//
     public void Buy_AWP(Text message)
     {
         if (gamesys.credits >= AWP_Price)
@@ -105,8 +108,9 @@ public class ShopSystem : MonoBehaviour
         }
         Buy_Pop_Up.SetActive(false);
     }
+    //----------------End of Buy Weapons----------------//
 
-    //Upgrade Weapons
+    //----------------Start of Upgrade Weapons----------------//
     public void Upgrade_FAMAS()
     {
         item_name = "FAMAS";
@@ -213,4 +217,5 @@ public class ShopSystem : MonoBehaviour
         
         return damage_cost;
     }
+    //----------------End of Upgrade Weapons----------------//
 }

@@ -23,6 +23,7 @@ public class GameSystem : MonoBehaviour
     public static int wave = 1;
     public static bool next = false;
 
+    //Backgrounds
     [SerializeField] GameObject Wave1;
     [SerializeField] GameObject Wave2;
 
