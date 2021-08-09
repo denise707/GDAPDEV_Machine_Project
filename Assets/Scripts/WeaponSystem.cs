@@ -26,6 +26,7 @@ public class WeaponSystem : MonoBehaviour
 
     protected UICallbackScript UICallback;
     public bool shoot = false;
+    bool update_values = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -77,7 +78,21 @@ public class WeaponSystem : MonoBehaviour
             }
             magazineHolder.GetComponent<Text>().text = AWP.currentMagazine + " / " + AWP.magazineSize;
         }
-        shoot = false;        
+        shoot = false;
+
+        if (update_values)
+        {
+            if(selectedWeapon.weaponName == "FAMAS")
+            {
+                selectedWeapon = FAMAS;
+            }
+
+            else if (selectedWeapon.weaponName == "AWP")
+            {
+                selectedWeapon = AWP;
+            }
+            update_values = false;
+        }
     }
 
     public GunType GetEquipped()
@@ -106,12 +121,21 @@ public class WeaponSystem : MonoBehaviour
         }       
     }
 
-    public void Upgrade()
+    public void Upgrade(string weap_name, int damage_up,int damage_cost, int magazine_up, int magazine_cost)
     {
-        if(selectedWeapon.weaponName == "AWP")
+        if(weap_name == "FAMAS")
         {
-
+            FAMAS.damageAmount = damage_up;
+            Debug.Log(FAMAS.damageAmount);
         }
+
+        else if (weap_name == "AWP")
+        {
+            AWP.damageAmount = damage_up;
+            Debug.Log(AWP.damageAmount);
+        }
+
+        update_values = true;
     }
 
     public void Buy(string gun)
@@ -123,5 +147,16 @@ public class WeaponSystem : MonoBehaviour
             WeaponButton2.interactable = true;
             Debug.Log("You bought" + selectedWeapon.weaponName);
         }
+    }
+
+    public GunType GetStats(string weap_name)
+    {
+        GunType gun = FAMAS;
+        switch (weap_name)
+        {
+            case "FAMAS": gun = FAMAS; break;
+            case "AWP": gun = AWP; break;
+        }
+        return gun;
     }
 }
