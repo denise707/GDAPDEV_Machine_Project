@@ -13,7 +13,10 @@ public class GameSystem : MonoBehaviour
     [SerializeField] private GameObject healthBar;
     
     public static int score = 0;
-    [SerializeField] private GameObject scoreHolder;  
+    [SerializeField] private GameObject scoreHolder;
+
+    public int credits = 500;
+    [SerializeField] private Text creditHolder;
 
     //Level
     public static int stage = 1;
@@ -56,6 +59,6 @@ public class GameSystem : MonoBehaviour
     {
         healthBar.GetComponent<Image>().fillAmount = Health / 100;
         scoreHolder.GetComponent<Text>().text = score.ToString();
-        
+        creditHolder.text = credits.ToString();
     }
 }

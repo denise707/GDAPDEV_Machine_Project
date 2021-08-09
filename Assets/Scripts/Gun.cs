@@ -66,14 +66,15 @@ public class Gun : MonoBehaviour
 
             if (enemy != null)
             {
-                if(selectedWeapon.color == "BLUE")
-                {
-                    enemy.TakeDamage(this.selectedWeapon.damageAmount);
-                }
-                else
-                {
-                    enemy.TakeDamage(100);
-                }
+                //if(selectedWeapon.color == "BLUE")
+                //{
+                enemy.TakeDamage(this.selectedWeapon.damageAmount);
+                Debug.Log("Damage: " + selectedWeapon.damageAmount);
+                //}
+                //else
+                //{
+                //    enemy.TakeDamage(100);
+                //}
             }
         }
         weaponsys.shoot = true;
