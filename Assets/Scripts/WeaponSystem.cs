@@ -5,34 +5,34 @@ using UnityEngine.UI;
 
 public class WeaponSystem : MonoBehaviour
 {
-    [SerializeField] private GameObject magazineHolder;
-
     //Weapon
     private GunType FAMAS;
     private GunType AWP;
     //private GunType Six;
 
-    //Weapon Holder
+    //Weapon Holder (Used to show if equipped ot not)
     [SerializeField] private GameObject WeaponHolder1;
     [SerializeField] private GameObject WeaponHolder2;
 
+    //Weapon Button (used to either make it interactable or not)
     [SerializeField] private Button WeaponButton2;
+    
+    //Current magazine of gun equipped 
+    [SerializeField] private GameObject magazineHolder;    
 
-    private GunType selectedWeapon;
-    public bool changeWeapon = true;
-
+    //Button States
     Color pressed;
     Color normal;
 
-    protected UICallbackScript UICallback;
+    private GunType selectedWeapon;
+    public bool changeWeapon = true;
     public bool shoot = false;
     bool update_values = false;
 
     // Start is called before the first frame update
     void Awake()
     {
-        UICallback = FindObjectOfType<UICallbackScript>();
-
+        //FAMAS Stats
         FAMAS = new GunType();
         FAMAS.weaponName = "FAMAS";
         FAMAS.damageAmount = 10f;
@@ -41,14 +41,16 @@ public class WeaponSystem : MonoBehaviour
         FAMAS.color = "BLUE";
         FAMAS.available = true;
 
+        //AWP Stats
         AWP = new GunType();
         AWP.weaponName = "AWP";
-        AWP.damageAmount = 50f;
+        AWP.damageAmount = 20f;
         AWP.magazineSize = 5;
         AWP.currentMagazine = 5;
         AWP.color = "GREEN";
         AWP.available = false;
 
+        //Set button colors
         normal = new Color(255f, 255f, 255f, 90f / 255f);
         pressed = new Color(0f, 0f, 0f, 0.5f);
 
@@ -61,6 +63,7 @@ public class WeaponSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Update current  magazine
         if(selectedWeapon.weaponName == "FAMAS")
         {
             if (shoot)
@@ -78,8 +81,10 @@ public class WeaponSystem : MonoBehaviour
             }
             magazineHolder.GetComponent<Text>().text = AWP.currentMagazine + " / " + AWP.magazineSize;
         }
+
         shoot = false;
 
+        //Update stats from upgrade
         if (update_values)
         {
             if(selectedWeapon.weaponName == "FAMAS")
@@ -95,6 +100,7 @@ public class WeaponSystem : MonoBehaviour
         }
     }
 
+    //Get currently equipped weapon
     public GunType GetEquipped()
     {
         return selectedWeapon;
