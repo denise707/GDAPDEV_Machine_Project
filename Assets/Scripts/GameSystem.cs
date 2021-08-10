@@ -44,7 +44,7 @@ public class GameSystem : MonoBehaviour
                     Wave1.SetActive(true);
                     break;                    
 
-                case 4:
+                case 2:
                     Wave1.SetActive(false);
                     Wave2.SetActive(true);
                     break;

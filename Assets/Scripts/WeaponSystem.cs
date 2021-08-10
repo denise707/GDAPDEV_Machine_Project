@@ -8,15 +8,17 @@ public class WeaponSystem : MonoBehaviour
     //Weapon
     private GunType FAMAS;
     private GunType AWP;
-    //private GunType Six;
+    private GunType Six;
 
     //Weapon Holder (Used to show if equipped ot not)
     [SerializeField] private GameObject WeaponHolder1;
     [SerializeField] private GameObject WeaponHolder2;
+    [SerializeField] private GameObject WeaponHolder3;
 
     //Weapon Button (used to either make it interactable or not)
     [SerializeField] private Button WeaponButton2;
-    
+    [SerializeField] private Button WeaponButton3;
+
     //Current magazine of gun equipped 
     [SerializeField] private GameObject magazineHolder;    
 
@@ -45,10 +47,19 @@ public class WeaponSystem : MonoBehaviour
         AWP = new GunType();
         AWP.weaponName = "AWP";
         AWP.damageAmount = 20f;
-        AWP.magazineSize = 5;
-        AWP.currentMagazine = 5;
+        AWP.magazineSize = 10;
+        AWP.currentMagazine = 10;
         AWP.color = "GREEN";
         AWP.available = false;
+
+        //Six Stats
+        Six = new GunType();
+        Six.weaponName = "Six";
+        Six.damageAmount = 30f;
+        Six.magazineSize = 20;
+        Six.currentMagazine = 20;
+        Six.color = "RED";
+        Six.available = false;
 
         //Set button colors
         normal = new Color(255f, 255f, 255f, 90f / 255f);
@@ -82,6 +93,15 @@ public class WeaponSystem : MonoBehaviour
             magazineHolder.GetComponent<Text>().text = AWP.currentMagazine + " / " + AWP.magazineSize;
         }
 
+        if (selectedWeapon.weaponName == "Six")
+        {
+            if (shoot)
+            {
+                Six.currentMagazine -= 1;
+            }
+            magazineHolder.GetComponent<Text>().text = Six.currentMagazine + " / " + Six.magazineSize;
+        }
+
         shoot = false;
 
         //Update stats from upgrade
@@ -96,6 +116,12 @@ public class WeaponSystem : MonoBehaviour
             {
                 selectedWeapon = AWP;
             }
+
+            else if (selectedWeapon.weaponName == "Six")
+            {
+                selectedWeapon = Six;
+            }
+
             update_values = false;
         }
     }
@@ -112,6 +138,7 @@ public class WeaponSystem : MonoBehaviour
         changeWeapon = true;
         WeaponHolder1.GetComponent<Image>().color = pressed;
         WeaponHolder2.GetComponent<Image>().color = normal;
+        WeaponHolder3.GetComponent<Image>().color = normal;
         Debug.Log("Changed to FAMAS");
     }
 
@@ -123,8 +150,22 @@ public class WeaponSystem : MonoBehaviour
             changeWeapon = true;
             WeaponHolder1.GetComponent<Image>().color = normal;
             WeaponHolder2.GetComponent<Image>().color = pressed;
+            WeaponHolder3.GetComponent<Image>().color = normal;
             Debug.Log("Changed to AWP");
         }       
+    }
+
+    public void selectSix()
+    {
+        if (Six.available)
+        {
+            selectedWeapon = Six;
+            changeWeapon = true;
+            WeaponHolder1.GetComponent<Image>().color = normal;
+            WeaponHolder2.GetComponent<Image>().color = normal;
+            WeaponHolder3.GetComponent<Image>().color = pressed;
+            Debug.Log("Changed to Six");
+        }
     }
 
     public void Upgrade(string weap_name, int damage_up,int damage_cost, int magazine_up, int magazine_cost)
@@ -141,6 +182,12 @@ public class WeaponSystem : MonoBehaviour
             Debug.Log(AWP.damageAmount);
         }
 
+        else if (weap_name == "Six")
+        {
+            Six.damageAmount = damage_up;
+            Debug.Log(Six.damageAmount);
+        }
+
         update_values = true;
     }
 
@@ -153,6 +200,14 @@ public class WeaponSystem : MonoBehaviour
             WeaponButton2.interactable = true;
             Debug.Log("You bought" + selectedWeapon.weaponName);
         }
+
+        if (gun == "Six")
+        {
+            Six.available = true;
+            WeaponHolder3.GetComponent<Image>().color = normal;
+            WeaponButton3.interactable = true;
+            Debug.Log("You bought" + selectedWeapon.weaponName);
+        }
     }
 
     public GunType GetStats(string weap_name)
@@ -162,6 +217,7 @@ public class WeaponSystem : MonoBehaviour
         {
             case "FAMAS": gun = FAMAS; break;
             case "AWP": gun = AWP; break;
+            case "Six": gun = Six; break;
         }
         return gun;
     }
