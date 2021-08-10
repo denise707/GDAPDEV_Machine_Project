@@ -31,7 +31,8 @@ public class ShopSystem : MonoBehaviour
     [SerializeField] private Button CancelButton;
 
     //Price List
-    int AWP_Price = 100;
+    int AWP_Price = 50;
+    int Six_Price = 100;
 
     //Upgrade
     [SerializeField] private Image Weapon_Image;
@@ -81,15 +82,39 @@ public class ShopSystem : MonoBehaviour
             Debug.Log(gamesys.credits);
             int current_credits = gamesys.credits - AWP_Price;
             message.text = "Are you sure you wan to buy AWP for " + AWP_Price + " Credits?";
-            item_name = "AWP";
-            Buy_Pop_Up.SetActive(true);
-            CancelButton.gameObject.SetActive(true);
+            item_name = "AWP";                      
         }
 
         else
         {
             message.text = "Insufficient Credits";
+            ConfirmButton.gameObject.SetActive(false);
+            CancelButton.gameObject.SetActive(false);
+            ReturnButton.gameObject.SetActive(true);
         }
+
+        Buy_Pop_Up.SetActive(true);
+    }
+
+    public void Buy_Six(Text message)
+    {
+        if (gamesys.credits >= Six_Price)
+        {
+            Debug.Log(gamesys.credits);
+            int current_credits = gamesys.credits - Six_Price;
+            message.text = "Are you sure you wan to buy Six for " + Six_Price + " Credits?";
+            item_name = "Six";
+        }
+
+        else
+        {
+            message.text = "Insufficient Credits";
+            ConfirmButton.gameObject.SetActive(false);
+            CancelButton.gameObject.SetActive(false);
+            ReturnButton.gameObject.SetActive(true);
+        }
+
+        Buy_Pop_Up.SetActive(true);
     }
 
     public void Buy_Confirm()
@@ -104,9 +129,16 @@ public class ShopSystem : MonoBehaviour
                 break;
             case "Six":
                 SixButton_Buy.interactable = false;
+                SixButton_Upgrade.interactable = true;
+                gamesys.credits -= Six_Price;
                 break;
         }
         Buy_Pop_Up.SetActive(false);
+    }
+
+    public void Buy_Cancel(GameObject buy_pop_up)
+    {
+        buy_pop_up.SetActive(false);
     }
     //----------------End of Buy Weapons----------------//
 
@@ -206,7 +238,7 @@ public class ShopSystem : MonoBehaviour
             case 10: damage_cost = 0; break;
             case 20: damage_cost = 200; break;
             case 30: damage_cost = 300; break;
-            case 40: damage_cost = 1000; break;
+            case 40: damage_cost = 500; break;
             case 50: damage_cost = 1200; break;
             default: damage_cost = 1500; break;
         }
