@@ -40,7 +40,7 @@ public class EnemySpawner : MonoBehaviour
         if (GameSystem.next && !GameSystem.boss_level)
         {
             //To change possible number of enemies per wave
-            total_enemies = Random.Range(1, 2);
+            total_enemies = Random.Range(1, GameSystem.enemy_increment + 1);
             for (int i = 0; i < total_enemies; i++)
             {
                 GameObject enemyCopy = enemyCopies[Random.Range(0, enemyCopies.Count - 1)];
