@@ -12,7 +12,6 @@ public class Gun : MonoBehaviour
     //public ParticleSystem bulletFlash;
 
     private GunType selectedWeapon;
-    float bonus_damage = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +57,7 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
+        //weaponsys.UpdateMagazine();
         //bulletFlash.Play();
         Ray ray = Camera.main.ScreenPointToRay(this.transform.position);
         RaycastHit hit;
@@ -66,26 +66,18 @@ public class Gun : MonoBehaviour
             Debug.Log(hit.transform.name);
 
             Enemy enemy = hit.transform.GetComponent<Enemy>();
-            bonus_damage = selectedWeapon.damage_amount * 0.3f;
 
             if (enemy != null)
             {
-                //Application of rock-paper-scissors mechanic
-                switch (selectedWeapon.color)
-                {
-                    case "BLUE":
-                        if(enemy.type == "WASP") { enemy.TakeDamage(this.selectedWeapon.damage_amount + bonus_damage); }
-                        else { enemy.TakeDamage(this.selectedWeapon.damage_amount); }
-                        break;
-                    case "GREEN":
-                        if (enemy.type == "METAL ARM") { enemy.TakeDamage(this.selectedWeapon.damage_amount + bonus_damage); }
-                        else { enemy.TakeDamage(this.selectedWeapon.damage_amount); }
-                        break;
-                    case "RED":
-                        if (enemy.type == "INSECT") { enemy.TakeDamage(this.selectedWeapon.damage_amount + bonus_damage); }
-                        else { enemy.TakeDamage(this.selectedWeapon.damage_amount); }
-                        break;
-                }
+                //if(selectedWeapon.color == "BLUE")
+                //{
+                enemy.TakeDamage(this.selectedWeapon.damage_amount);
+                Debug.Log("Damage: " + selectedWeapon.damage_amount);
+                //}
+                //else
+                //{
+                //    enemy.TakeDamage(100);
+                //}
             }
         }
         WeaponSys.on_shoot = true;
