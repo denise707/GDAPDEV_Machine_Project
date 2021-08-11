@@ -43,6 +43,7 @@ public class GameSystem : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(this);
+        SoundManagerScript.PlaySound("BGM_Default");
     }
 
     // Update is called once per frame

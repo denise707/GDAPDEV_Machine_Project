@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class Gun : MonoBehaviour
 
     private GunType selectedWeapon;
     float bonus_damage = 0.0f;
+    const float fire_rate = 1.0f;
+    float ticks = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -35,12 +38,19 @@ public class Gun : MonoBehaviour
 
         MoveCrosshair();
 
+        ticks += Time.deltaTime;
+
         if (UICallback.shoot)
         {
-            if(WeaponSys.GetStats(selectedWeapon.weapon_name).current_magazine > 0)
+            if(WeaponSys.GetStats(selectedWeapon.weapon_name).current_magazine > 0 && ticks >= fire_rate)
             {
                 Shoot();
-            }           
+                ticks = 0.0f;
+            }
+            else
+            {
+                UICallback.shoot = false;
+            }
         }
     }
 
@@ -58,8 +68,6 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
-        //weaponsys.UpdateMagazine();
-        //bulletFlash.Play();
         Ray ray = Camera.main.ScreenPointToRay(this.transform.position);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))

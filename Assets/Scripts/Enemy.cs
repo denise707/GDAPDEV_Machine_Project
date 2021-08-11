@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour
             ticks += Time.deltaTime;
             if(ticks >= INTERVAL)
             {
-                animator.SetBool("Attack", true);               
+                animator.SetBool("Attack", true);
                 ticks = 0.0f;
             }
 
