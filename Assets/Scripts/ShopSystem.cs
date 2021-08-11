@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class ShopSystem : MonoBehaviour
 {
     //Credits
-    [SerializeField] private Text CreditHolder;
-    [SerializeField] private Text BillHolder;
+    [SerializeField] private Text Credit_Holder;
+    [SerializeField] private Text Bill_Holder;
 
     //From other scripts
     protected WeaponSystem weaponsys;
@@ -63,15 +63,15 @@ public class ShopSystem : MonoBehaviour
         weaponsys = FindObjectOfType<WeaponSystem>();
         gamesys = FindObjectOfType<GameSystem>();
 
-        CreditHolder.text = $"Credits: {gamesys.credits}";
-        BillHolder.text = $"Total: {0}";
+        Credit_Holder.text = $"Credits: {gamesys.credits}";
+        Bill_Holder.text = $"Total: {0}";
     }
 
     // Update is called once per frame
     void Update()
     {
-        CreditHolder.text = $"Credits: {gamesys.credits}";
-        BillHolder.text = $"Total: {damage_cost}";
+        Credit_Holder.text = $"Credits: {gamesys.credits}";
+        Bill_Holder.text = $"Total: {damage_cost + magazine_cost}";
     }
 
     //----------------Start of Buy Weapons----------------//
@@ -149,15 +149,18 @@ public class ShopSystem : MonoBehaviour
         Weapon_Name.text = "FAMAS";
         Weapon_Image.sprite = FAMAS_Sprite;
 
-        damage_up = (int) weaponsys.GetStats(item_name).damageAmount;
+        damage_up = (int) weaponsys.GetStats(item_name).damage_amount;
         damage_cost = Damage_Cost();
+
+        magazine_up = (int)weaponsys.GetStats(item_name).magazine_size;
+        magazine_cost = Magazine_Cost();
 
         Upgrade_Pop_Up.SetActive(true);
 
-        Damage_Image.fillAmount = (float) weaponsys.GetStats("FAMAS").damageAmount / 100;
-        Damage_Label.text = (weaponsys.GetStats("FAMAS").damageAmount).ToString() + " / 100";
-        Magazine_Image.fillAmount = weaponsys.GetStats("FAMAS").magazineSize / 100;
-        Magazine_Label.text = (weaponsys.GetStats("FAMAS").magazineSize).ToString() + " / 100";
+        Damage_Image.fillAmount = (float) weaponsys.GetStats("FAMAS").damage_amount / 100;
+        Damage_Label.text = (weaponsys.GetStats("FAMAS").damage_amount).ToString() + " / 100";
+        Magazine_Image.fillAmount = (float) weaponsys.GetStats("FAMAS").magazine_size / 100;
+        Magazine_Label.text = (weaponsys.GetStats("FAMAS").magazine_size).ToString() + " / 100";
     }
 
     public void Upgrade_AWP()
@@ -166,15 +169,38 @@ public class ShopSystem : MonoBehaviour
         Weapon_Name.text = "AWP";
         Weapon_Image.sprite = AWP_Sprite;
 
-        damage_up = (int)weaponsys.GetStats(item_name).damageAmount;
+        damage_up = (int)weaponsys.GetStats(item_name).damage_amount;
         damage_cost = Damage_Cost();
+
+        magazine_up = (int)weaponsys.GetStats(item_name).magazine_size;
+        magazine_cost = Magazine_Cost();
 
         Upgrade_Pop_Up.SetActive(true);
 
-        Damage_Image.fillAmount = (float)weaponsys.GetStats("AWP").damageAmount / 100;
-        Damage_Label.text = (weaponsys.GetStats("AWP").damageAmount).ToString() + " / 100";
-        Magazine_Image.fillAmount = weaponsys.GetStats("AWP").magazineSize / 100;
-        Magazine_Label.text = (weaponsys.GetStats("AWP").magazineSize).ToString() + " / 100";
+        Damage_Image.fillAmount = (float)weaponsys.GetStats("AWP").damage_amount / 100;
+        Damage_Label.text = (weaponsys.GetStats("AWP").damage_amount).ToString() + " / 100";
+        Magazine_Image.fillAmount = (float) weaponsys.GetStats("AWP").magazine_size / 100;
+        Magazine_Label.text = (weaponsys.GetStats("AWP").magazine_size).ToString() + " / 100";
+    }
+
+    public void Upgrade_Six()
+    {
+        item_name = "Six";
+        Weapon_Name.text = "Six";
+        Weapon_Image.sprite = Six_Sprite;
+
+        damage_up = (int)weaponsys.GetStats(item_name).damage_amount;
+        damage_cost = Damage_Cost();
+
+        magazine_up = (int)weaponsys.GetStats(item_name).magazine_size;
+        magazine_cost = Magazine_Cost();
+
+        Upgrade_Pop_Up.SetActive(true);
+
+        Damage_Image.fillAmount = (float)weaponsys.GetStats("Six").damage_amount / 100;
+        Damage_Label.text = (weaponsys.GetStats("Six").damage_amount).ToString() + " / 100";
+        Magazine_Image.fillAmount = (float) weaponsys.GetStats("Six").magazine_size / 100;
+        Magazine_Label.text = (weaponsys.GetStats("Six").magazine_size).ToString() + " / 100";
     }
 
     public void More_Damage()
@@ -182,36 +208,64 @@ public class ShopSystem : MonoBehaviour
         if(damage_up < 100)
         {
             damage_up += 10;
-            damage_cost = Damage_Cost();
+            damage_cost += Damage_Cost();
 
             if (damage_cost > gamesys.credits)
-            {
+            {               
+                damage_cost -= Damage_Cost();
                 damage_up -= 10;
-                damage_cost = Damage_Cost();               
             }            
         }
 
         Damage_Image.fillAmount = (float)damage_up / 100;
         Damage_Label.text = (damage_up).ToString() + " / 100";
-        Magazine_Image.fillAmount = magazine_up / 100;
-        Magazine_Label.text = (magazine_up).ToString() + " / 100";
     }
 
     public void Less_Damage()
     {
+        damage_cost -= Damage_Cost();
         damage_up -= 10;
-        damage_cost = Damage_Cost();
 
-        if (damage_up < weaponsys.GetStats(item_name).damageAmount)
+        if (damage_up < weaponsys.GetStats(item_name).damage_amount)
         {
             damage_up += 10;
-            damage_cost = Damage_Cost();
-
+            damage_cost += Damage_Cost();
         }
 
         Damage_Image.fillAmount = (float)damage_up / 100;
         Damage_Label.text = (damage_up).ToString() + " / 100";
-        Magazine_Image.fillAmount = magazine_up / 100;
+    }
+
+    public void More_Magazine()
+    {
+        if (magazine_up < 50)
+        {
+            magazine_up += 5;
+            magazine_cost += Magazine_Cost();
+
+            if (magazine_cost > gamesys.credits)
+            {                
+                magazine_cost -= Magazine_Cost();
+                magazine_up -= 10;
+            }
+        }
+
+        Magazine_Image.fillAmount = (float) magazine_up / 100;
+        Magazine_Label.text = (magazine_up).ToString() + " / 100";
+    }
+
+    public void Less_Magazine()
+    {
+        magazine_cost -= Magazine_Cost();
+        magazine_up -= 10;
+
+        if (magazine_up < weaponsys.GetStats(item_name).magazine_size)
+        {
+            magazine_up += 10;
+            magazine_cost += Magazine_Cost();            
+        }
+
+        Magazine_Image.fillAmount = (float) magazine_up / 100;
         Magazine_Label.text = (magazine_up).ToString() + " / 100";
     }
 
@@ -229,6 +283,7 @@ public class ShopSystem : MonoBehaviour
         upgrade_pop_up.SetActive(false);
     }
 
+    //Upgrade Prices
     int Damage_Cost()
     {
         int damage_cost = 0;
@@ -238,16 +293,38 @@ public class ShopSystem : MonoBehaviour
             case 10: damage_cost = 0; break;
             case 20: damage_cost = 200; break;
             case 30: damage_cost = 300; break;
-            case 40: damage_cost = 500; break;
-            case 50: damage_cost = 1200; break;
-            default: damage_cost = 1500; break;
+            case 40: damage_cost = 400; break;
+            case 50: damage_cost = 500; break;
+            default: damage_cost = 600; break;
         }
 
-        if (damage_up == weaponsys.GetStats(item_name).damageAmount){
+        if (damage_up == weaponsys.GetStats(item_name).damage_amount){
             damage_cost = 0;           
         }
         
         return damage_cost;
+    }
+
+    int Magazine_Cost()
+    {
+        int magazine_cost = 0;
+
+        switch (magazine_up)
+        {
+            case 10: magazine_cost = 0; break;
+            case 20: magazine_cost = 200; break;
+            case 30: magazine_cost = 300; break;
+            case 40: magazine_cost = 500; break;
+            case 50: magazine_cost = 1200; break;
+            default: magazine_cost = 1500; break;
+        }
+
+        if (magazine_up == weaponsys.GetStats(item_name).magazine_size)
+        {
+            magazine_cost = 0;
+        }
+
+        return magazine_cost;
     }
     //----------------End of Upgrade Weapons----------------//
 }

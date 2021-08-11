@@ -4,10 +4,10 @@ using UnityEngine;
 
 public struct GunType 
 {
-    public string weaponName;
-    public float damageAmount;
-    public int currentMagazine;
-    public int magazineSize;
+    public string weapon_name;
+    public float damage_amount;
+    public int current_magazine;
+    public int magazine_size;
     public string color;
     public bool available;
 }
