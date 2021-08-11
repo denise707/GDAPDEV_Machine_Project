@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     public Animator animator;
     public string type;
     public bool move = false;
+    bool receive_damage = false;
 
     //Attacking
     private bool reachPlayer = false;
@@ -91,6 +92,11 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         Destroy(this.gameObject, 1);
-        GameSystem.score += 50;
+        if (!receive_damage)
+        {
+            GameSystem.score += 50;
+            receive_damage = true;
+        }
+       
     }
 }

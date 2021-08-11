@@ -162,23 +162,29 @@ public class WeaponSystem : MonoBehaviour
         }
     }
 
-    public void Upgrade(string weap_name, int damage_up,int damage_cost, int magazine_up, int magazine_cost)
+    public void Upgrade(string weap_name, int damage_up, int magazine_up)
     {
         if(weap_name == "FAMAS")
         {
             FAMAS.damage_amount = damage_up;
+            FAMAS.magazine_size = magazine_up;
+            FAMAS.current_magazine = magazine_up;
             Debug.Log(FAMAS.damage_amount);
         }
 
         else if (weap_name == "AWP")
         {
-            AWP.damage_amount = damage_up;
+            AWP.damage_amount = damage_up; 
+            AWP.magazine_size = magazine_up;
+            AWP.current_magazine = magazine_up;
             Debug.Log(AWP.damage_amount);
         }
 
         else if (weap_name == "Six")
         {
             Six.damage_amount = damage_up;
+            Six.magazine_size = magazine_up;
+            Six.current_magazine = magazine_up;
             Debug.Log(Six.damage_amount);
         }
 
