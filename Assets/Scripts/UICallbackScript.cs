@@ -30,11 +30,13 @@ public class UICallbackScript : MonoBehaviour
     }
     public void onShopButton()
     {
+        SoundManagerScript.PlaySound("Button");
         gameMenu.SetActive(false);
         shopMenu.SetActive(true);
     }
     public void onReturn()
     {
+        SoundManagerScript.PlaySound("Button");
         gameMenu.SetActive(true);
         shopMenu.SetActive(false);
     }

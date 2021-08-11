@@ -77,6 +77,7 @@ public class ShopSystem : MonoBehaviour
     //----------------Start of Buy Weapons----------------//
     public void Buy_AWP(Text message)
     {
+        SoundManagerScript.PlaySound("Button");
         if (gamesys.credits >= AWP_Price)
         {
             Debug.Log(gamesys.credits);
@@ -98,6 +99,7 @@ public class ShopSystem : MonoBehaviour
 
     public void Buy_Six(Text message)
     {
+        SoundManagerScript.PlaySound("Button");
         if (gamesys.credits >= Six_Price)
         {
             Debug.Log(gamesys.credits);
@@ -119,6 +121,7 @@ public class ShopSystem : MonoBehaviour
 
     public void Buy_Confirm()
     {
+        SoundManagerScript.PlaySound("Button");
         weaponsys.Buy(item_name);
         switch (item_name)
         {
@@ -138,6 +141,7 @@ public class ShopSystem : MonoBehaviour
 
     public void Buy_Cancel(GameObject buy_pop_up)
     {
+        SoundManagerScript.PlaySound("Button");
         buy_pop_up.SetActive(false);
     }
     //----------------End of Buy Weapons----------------//
@@ -145,6 +149,7 @@ public class ShopSystem : MonoBehaviour
     //----------------Start of Upgrade Weapons----------------//
     public void Upgrade_FAMAS()
     {
+        SoundManagerScript.PlaySound("Button");
         item_name = "FAMAS";
         Weapon_Name.text = "FAMAS";
         Weapon_Image.sprite = FAMAS_Sprite;
@@ -165,6 +170,7 @@ public class ShopSystem : MonoBehaviour
 
     public void Upgrade_AWP()
     {
+        SoundManagerScript.PlaySound("Button");
         item_name = "AWP";
         Weapon_Name.text = "AWP";
         Weapon_Image.sprite = AWP_Sprite;
@@ -185,6 +191,7 @@ public class ShopSystem : MonoBehaviour
 
     public void Upgrade_Six()
     {
+        SoundManagerScript.PlaySound("Button");
         item_name = "Six";
         Weapon_Name.text = "Six";
         Weapon_Image.sprite = Six_Sprite;
@@ -205,7 +212,8 @@ public class ShopSystem : MonoBehaviour
 
     public void More_Damage()
     {
-        if(damage_up < 100)
+        SoundManagerScript.PlaySound("Button");
+        if (damage_up < 100)
         {
             damage_up += 10;
             damage_cost += Damage_Cost();
@@ -223,6 +231,7 @@ public class ShopSystem : MonoBehaviour
 
     public void Less_Damage()
     {
+        SoundManagerScript.PlaySound("Button");
         damage_cost -= Damage_Cost();
         damage_up -= 10;
 
@@ -238,6 +247,7 @@ public class ShopSystem : MonoBehaviour
 
     public void More_Magazine()
     {
+        SoundManagerScript.PlaySound("Button");
         if (magazine_up < 50)
         {
             magazine_up += 10;
@@ -256,6 +266,7 @@ public class ShopSystem : MonoBehaviour
 
     public void Less_Magazine()
     {
+        SoundManagerScript.PlaySound("Button");
         magazine_cost -= Magazine_Cost();
         magazine_up -= 10;
 
@@ -271,6 +282,7 @@ public class ShopSystem : MonoBehaviour
 
     public void Upgrade_Confirm(GameObject upgrade_pop_up)
     {
+        SoundManagerScript.PlaySound("Button");
         weaponsys.Upgrade(item_name, damage_up, damage_cost, magazine_up, magazine_cost);
         gamesys.credits -= damage_cost;
         upgrade_pop_up.SetActive(false);
@@ -278,6 +290,7 @@ public class ShopSystem : MonoBehaviour
 
     public void Upgrade_Cancel(GameObject upgrade_pop_up)
     {
+        SoundManagerScript.PlaySound("Button");
         damage_up = 0;
         damage_cost = 0;
         upgrade_pop_up.SetActive(false);
