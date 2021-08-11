@@ -12,6 +12,7 @@ public class Gun : MonoBehaviour
     //public ParticleSystem bulletFlash;
 
     private GunType selectedWeapon;
+    float bonus_damage = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -69,15 +70,23 @@ public class Gun : MonoBehaviour
 
             if (enemy != null)
             {
-                //if(selectedWeapon.color == "BLUE")
-                //{
-                enemy.TakeDamage(this.selectedWeapon.damage_amount);
-                Debug.Log("Damage: " + selectedWeapon.damage_amount);
-                //}
-                //else
-                //{
-                //    enemy.TakeDamage(100);
-                //}
+                //Application of rock-paper-scissors mechanic
+                bonus_damage = this.selectedWeapon.damage_amount * 0.3f;
+                switch (selectedWeapon.color)
+                {
+                    case "BLUE":
+                        if (enemy.type == "WASP") { enemy.TakeDamage(this.selectedWeapon.damage_amount + bonus_damage); }
+                        else { enemy.TakeDamage(this.selectedWeapon.damage_amount); }
+                        break;
+                    case "GREEN":
+                        if (enemy.type == "METAL ARM") { enemy.TakeDamage(this.selectedWeapon.damage_amount + bonus_damage); }
+                        else { enemy.TakeDamage(this.selectedWeapon.damage_amount); }
+                        break;
+                    case "RED":
+                        if (enemy.type == "INSECT") { enemy.TakeDamage(this.selectedWeapon.damage_amount + bonus_damage); }
+                        else { enemy.TakeDamage(this.selectedWeapon.damage_amount); }
+                        break;
+                }
             }
         }
         WeaponSys.on_shoot = true;

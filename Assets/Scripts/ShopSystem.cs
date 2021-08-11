@@ -240,7 +240,7 @@ public class ShopSystem : MonoBehaviour
     {
         if (magazine_up < 50)
         {
-            magazine_up += 5;
+            magazine_up += 10;
             magazine_cost += Magazine_Cost();
 
             if (magazine_cost > gamesys.credits)
