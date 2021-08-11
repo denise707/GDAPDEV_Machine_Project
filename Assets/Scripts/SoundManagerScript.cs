@@ -29,6 +29,9 @@ public class SoundManagerScript : MonoBehaviour
             case "BGM_Default":
                 audioSrc.PlayOneShot(default_bgm);
                 break;
+            case "Monster":
+                audioSrc.PlayOneShot(monster_sfx);
+                break;
         }
     }
 }
