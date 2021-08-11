@@ -240,7 +240,7 @@ public class ShopSystem : MonoBehaviour
     {
         if (magazine_up < 50)
         {
-            magazine_up += 10;
+            magazine_up += 5;
             magazine_cost += Magazine_Cost();
 
             if (magazine_cost > gamesys.credits)
@@ -271,7 +271,7 @@ public class ShopSystem : MonoBehaviour
 
     public void Upgrade_Confirm(GameObject upgrade_pop_up)
     {
-        weaponsys.Upgrade(item_name, damage_up, magazine_up);
+        weaponsys.Upgrade(item_name, damage_up, damage_cost, magazine_up, magazine_cost);
         gamesys.credits -= damage_cost;
         upgrade_pop_up.SetActive(false);
     }

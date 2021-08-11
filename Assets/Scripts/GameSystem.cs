@@ -20,7 +20,7 @@ public class GameSystem : MonoBehaviour
     //Level
     public static int stage = 1;
     public static int wave = 1;
-    public static bool boss_level = false;
+    public static bool boss_level = true;
     public static bool next = false;
 
     //Backgrounds
@@ -64,8 +64,8 @@ public class GameSystem : MonoBehaviour
         }
 
         UpdateUI();
-        //GameOver();
-        //GameWin();
+        GameOver();
+        GameWin();
     }
 
     void UpdateUI()
