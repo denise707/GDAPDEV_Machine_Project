@@ -1112,6 +1112,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112925654}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1139699201 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 133195388249769899, guid: 277668edf4644da4f8378a9f679aa88c, type: 3}
+  m_PrefabInstance: {fileID: 807009138235545878}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1143435149 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5203744151645170954, guid: f18076cdf244624409129d7d14462a62, type: 3}
@@ -1234,7 +1239,7 @@ MonoBehaviour:
   Weapon_Holder_1: {fileID: 2037534621}
   Weapon_Holder_2: {fileID: 1390340152}
   Weapon_Holder_3: {fileID: 230721489}
-  Magazine_Holder: {fileID: 811151961}
+  Magazine_Holder: {fileID: 1139699201}
   change_weapon: 1
   on_shoot: 0
 --- !u!114 &1209354097
@@ -2452,6 +2457,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 873309909}
     m_Modifications:
     - target: {fileID: 3044613570389651128, guid: 6ddda14d2b89171499a25e5a30653528, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3044613570389651128, guid: 6ddda14d2b89171499a25e5a30653528, type: 3}
+      propertyPath: damage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3044613570389651128, guid: 6ddda14d2b89171499a25e5a30653528, type: 3}
+      propertyPath: health
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3044613570389651128, guid: 6ddda14d2b89171499a25e5a30653528, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 187590817}
@@ -2622,6 +2639,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4702478620560401137, guid: a9186732ae0bc14458da545247d18532, type: 3}
+      propertyPath: damage
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4702478620560401137, guid: a9186732ae0bc14458da545247d18532, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 187590817}
@@ -2642,6 +2663,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 873309909}
     m_Modifications:
+    - target: {fileID: 3804382572514223252, guid: df7bcad0f03e218428edb4c65dddda43, type: 3}
+      propertyPath: damage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3804382572514223252, guid: df7bcad0f03e218428edb4c65dddda43, type: 3}
+      propertyPath: health
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 3804382572514223252, guid: df7bcad0f03e218428edb4c65dddda43, type: 3}
       propertyPath: player
       value: 
@@ -3218,6 +3247,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 873309909}
     m_Modifications:
+    - target: {fileID: 7942210623864034265, guid: b7c59389fca79024d94326fa9935f878, type: 3}
+      propertyPath: speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942210623864034265, guid: b7c59389fca79024d94326fa9935f878, type: 3}
+      propertyPath: damage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942210623864034265, guid: b7c59389fca79024d94326fa9935f878, type: 3}
+      propertyPath: health
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7942210623864034265, guid: b7c59389fca79024d94326fa9935f878, type: 3}
       propertyPath: player
       value: 
