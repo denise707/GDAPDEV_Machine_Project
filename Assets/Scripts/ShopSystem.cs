@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ShopSystem : MonoBehaviour
 {
@@ -31,8 +32,8 @@ public class ShopSystem : MonoBehaviour
     [SerializeField] private Button CancelButton;
 
     //Price List
-    int AWP_Price = 50;
-    int Six_Price = 100;
+    int AWP_Price = 200;
+    int Six_Price = 500;
 
     //Upgrade
     [SerializeField] private Image Weapon_Image;
@@ -63,25 +64,25 @@ public class ShopSystem : MonoBehaviour
         weaponsys = FindObjectOfType<WeaponSystem>();
         gamesys = FindObjectOfType<GameSystem>();
 
-        Credit_Holder.text = $"Credits: {gamesys.credits}";
+        Credit_Holder.text = $"Credits: {GameSystem.credits}";
         Bill_Holder.text = $"Total: {0}";
     }
 
     // Update is called once per frame
     void Update()
     {
-        Credit_Holder.text = $"Credits: {gamesys.credits}";
-        Bill_Holder.text = $"Total: {damage_cost + magazine_cost}";
+        Credit_Holder.text = $"Credits: {GameSystem.credits}";
+        Bill_Holder.text = $"Total: {damage_cost + magazine_cost}";    
     }
 
     //----------------Start of Buy Weapons----------------//
     public void Buy_AWP(Text message)
     {
         SoundManagerScript.PlaySound("Button");
-        if (gamesys.credits >= AWP_Price)
+        if (GameSystem.credits >= AWP_Price)
         {
-            Debug.Log(gamesys.credits);
-            int current_credits = gamesys.credits - AWP_Price;
+            Debug.Log(GameSystem.credits);
+            int current_credits = GameSystem.credits - AWP_Price;
             message.text = "Are you sure you wan to buy AWP for " + AWP_Price + " Credits?";
             item_name = "AWP";                      
         }
@@ -100,10 +101,10 @@ public class ShopSystem : MonoBehaviour
     public void Buy_Six(Text message)
     {
         SoundManagerScript.PlaySound("Button");
-        if (gamesys.credits >= Six_Price)
+        if (GameSystem.credits >= Six_Price)
         {
-            Debug.Log(gamesys.credits);
-            int current_credits = gamesys.credits - Six_Price;
+            Debug.Log(GameSystem.credits);
+            int current_credits = GameSystem.credits - Six_Price;
             message.text = "Are you sure you wan to buy Six for " + Six_Price + " Credits?";
             item_name = "Six";
         }
@@ -128,12 +129,12 @@ public class ShopSystem : MonoBehaviour
             case "AWP":
                 AWPButton_Buy.interactable = false;
                 AWPButton_Upgrade.interactable = true;
-                gamesys.credits -= AWP_Price;
+                GameSystem.credits -= AWP_Price;
                 break;
             case "Six":
                 SixButton_Buy.interactable = false;
                 SixButton_Upgrade.interactable = true;
-                gamesys.credits -= Six_Price;
+                GameSystem.credits -= Six_Price;
                 break;
         }
         Buy_Pop_Up.SetActive(false);
@@ -164,8 +165,8 @@ public class ShopSystem : MonoBehaviour
 
         Damage_Image.fillAmount = (float) weaponsys.GetStats("FAMAS").damage_amount / 100;
         Damage_Label.text = (weaponsys.GetStats("FAMAS").damage_amount).ToString() + " / 100";
-        Magazine_Image.fillAmount = (float) weaponsys.GetStats("FAMAS").magazine_size / 100;
-        Magazine_Label.text = (weaponsys.GetStats("FAMAS").magazine_size).ToString() + " / 100";
+        Magazine_Image.fillAmount = (float) weaponsys.GetStats("FAMAS").magazine_size / 50;
+        Magazine_Label.text = (weaponsys.GetStats("FAMAS").magazine_size).ToString() + " / 50";
     }
 
     public void Upgrade_AWP()
@@ -185,8 +186,8 @@ public class ShopSystem : MonoBehaviour
 
         Damage_Image.fillAmount = (float)weaponsys.GetStats("AWP").damage_amount / 100;
         Damage_Label.text = (weaponsys.GetStats("AWP").damage_amount).ToString() + " / 100";
-        Magazine_Image.fillAmount = (float) weaponsys.GetStats("AWP").magazine_size / 100;
-        Magazine_Label.text = (weaponsys.GetStats("AWP").magazine_size).ToString() + " / 100";
+        Magazine_Image.fillAmount = (float) weaponsys.GetStats("AWP").magazine_size / 50;
+        Magazine_Label.text = (weaponsys.GetStats("AWP").magazine_size).ToString() + " / 50";
     }
 
     public void Upgrade_Six()
@@ -206,8 +207,8 @@ public class ShopSystem : MonoBehaviour
 
         Damage_Image.fillAmount = (float)weaponsys.GetStats("Six").damage_amount / 100;
         Damage_Label.text = (weaponsys.GetStats("Six").damage_amount).ToString() + " / 100";
-        Magazine_Image.fillAmount = (float) weaponsys.GetStats("Six").magazine_size / 100;
-        Magazine_Label.text = (weaponsys.GetStats("Six").magazine_size).ToString() + " / 100";
+        Magazine_Image.fillAmount = (float) weaponsys.GetStats("Six").magazine_size / 50;
+        Magazine_Label.text = (weaponsys.GetStats("Six").magazine_size).ToString() + " / 50";
     }
 
     public void More_Damage()
@@ -218,7 +219,7 @@ public class ShopSystem : MonoBehaviour
             damage_up += 10;
             damage_cost += Damage_Cost();
 
-            if (damage_cost > gamesys.credits)
+            if (damage_cost + magazine_cost > GameSystem.credits)
             {               
                 damage_cost -= Damage_Cost();
                 damage_up -= 10;
@@ -253,15 +254,15 @@ public class ShopSystem : MonoBehaviour
             magazine_up += 10;
             magazine_cost += Magazine_Cost();
 
-            if (magazine_cost > gamesys.credits)
+            if (magazine_cost + damage_cost > GameSystem.credits)
             {                
                 magazine_cost -= Magazine_Cost();
                 magazine_up -= 10;
             }
         }
 
-        Magazine_Image.fillAmount = (float) magazine_up / 100;
-        Magazine_Label.text = (magazine_up).ToString() + " / 100";
+        Magazine_Image.fillAmount = (float) magazine_up / 50;
+        Magazine_Label.text = (magazine_up).ToString() + " / 50";
     }
 
     public void Less_Magazine()
@@ -276,15 +277,15 @@ public class ShopSystem : MonoBehaviour
             magazine_cost += Magazine_Cost();            
         }
 
-        Magazine_Image.fillAmount = (float) magazine_up / 100;
-        Magazine_Label.text = (magazine_up).ToString() + " / 100";
+        Magazine_Image.fillAmount = (float) magazine_up / 50;
+        Magazine_Label.text = (magazine_up).ToString() + " / 50";
     }
 
     public void Upgrade_Confirm(GameObject upgrade_pop_up)
     {
         SoundManagerScript.PlaySound("Button");
         weaponsys.Upgrade(item_name, damage_up, damage_cost, magazine_up, magazine_cost);
-        gamesys.credits -= damage_cost;
+        GameSystem.credits -= damage_cost;
         upgrade_pop_up.SetActive(false);
     }
 
@@ -304,11 +305,15 @@ public class ShopSystem : MonoBehaviour
         switch (damage_up)
         {
             case 10: damage_cost = 0; break;
-            case 20: damage_cost = 200; break;
-            case 30: damage_cost = 300; break;
-            case 40: damage_cost = 400; break;
-            case 50: damage_cost = 500; break;
-            default: damage_cost = 600; break;
+            case 20: damage_cost = 100; break;
+            case 30: damage_cost = 200; break;
+            case 40: damage_cost = 300; break;
+            case 50: damage_cost = 400; break;
+            case 60: damage_cost = 500; break;
+            case 70: damage_cost = 600; break;
+            case 80: damage_cost = 700; break;
+            case 90: damage_cost = 800; break;
+            case 100: damage_cost = 900; break;
         }
 
         if (damage_up == weaponsys.GetStats(item_name).damage_amount){
@@ -329,7 +334,6 @@ public class ShopSystem : MonoBehaviour
             case 30: magazine_cost = 300; break;
             case 40: magazine_cost = 500; break;
             case 50: magazine_cost = 1200; break;
-            default: magazine_cost = 1500; break;
         }
 
         if (magazine_up == weaponsys.GetStats(item_name).magazine_size)
