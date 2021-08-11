@@ -14,21 +14,27 @@ public class GameSystem : MonoBehaviour
     public static int score = 0;
     [SerializeField] private GameObject Score_Holder;
 
-    public int credits = 500;
+    public static int credits = 500;
     [SerializeField] private Text Credit_Holder;
 
     //Level
     public static int stage = 1;
     public static int wave = 1;
-    public static bool boss_level = false;
+    public static bool boss_level = true;
     public static bool next = false;
-    bool next_level = true;
-    public static int enemy_increment = 1;
+    bool going_next_level = false;
+    bool swiped = false;
+    public static int enemy_increment = 0;
+    int wave_increment = 0;
+    int game_result = 0; //1 - win, 2 - lose
 
     //Backgrounds
     [SerializeField] GameObject Wave_1_BG;
     [SerializeField] GameObject Wave_2_BG;
     [SerializeField] GameObject Wave_3_BG;
+
+    [SerializeField] public GameObject Instructions;
+    [SerializeField] GameObject GameResult;
 
     //Gestures
     private Touch trackedFinger1;
@@ -39,47 +45,110 @@ public class GameSystem : MonoBehaviour
     float minSwipeDistance = 2f;
     float swipeTime = 0.7f;
 
+    float tapTime = 0.7f;
+    float tapDistance = 0.1f;
+
     // Start is called before the first frame update
     void Awake()
     {
-        DontDestroyOnLoad(this);
         SoundManagerScript.PlaySound("BGM_Default");
-    }
+
+        health = 100;
+        credits = 500;
+        score = 0;
+
+        stage = 1;
+        wave = 1;
+        boss_level = false;
+        next = false;
+        going_next_level = false;
+        swiped = false;
+        enemy_increment = 0;
+        wave_increment = 0;
+        game_result = 0;
+}
 
     // Update is called once per frame
     void Update()
     {
-        if (EnemySpawner.count <= 0 && next == false && next_level)
+        UpdateUI();
+
+        if (health <= 0)
         {
-            switch (wave)
-            {
-                case 1:
-                    Wave_1_BG.SetActive(true);
-                    break;                    
-
-                case 2:
-                    Wave_1_BG.SetActive(false);
-                    Wave_2_BG.SetActive(true);
-                    break;
-
-                case 3:
-                    Wave_1_BG.SetActive(false);
-                    Wave_2_BG.SetActive(false);
-                    Wave_3_BG.SetActive(true);
-                    boss_level = true;
-                    break;
-
-                case 4: GameWin(); break;
-            }
-            next = true;
-            wave++;
-            //enemy_increment += 0;         
+            game_result = 2;
         }
 
-        next_level = Swiped();
-        UpdateUI();
-        //GameOver();
-        //GameWin();
+        if (game_result == 0)
+        {
+            if (EnemySpawner.count <= 0 && next == false)
+            {
+                if (wave >= 4)
+                {
+                    game_result = 1;
+                }
+
+                if (!going_next_level)
+                {
+                    next = true;                    
+
+                    switch (wave)
+                    {
+                        case 1:
+                            Wave_1_BG.SetActive(true);
+                            break;
+
+                        case 2:
+                            Wave_1_BG.SetActive(false);
+                            Wave_2_BG.SetActive(true);
+                            break;
+
+                        case 3:
+                            Wave_1_BG.SetActive(false);
+                            Wave_2_BG.SetActive(false);
+                            Wave_3_BG.SetActive(true);
+                            boss_level = true;
+                            break;
+                    }
+
+                    //Total of 3 waves each (> 1);
+                    if (wave_increment > -1)
+                    {
+                        wave++;
+                        wave_increment = 0;
+                        going_next_level = true;
+                    }
+
+                    else
+                    {
+                        wave_increment++;
+                    }
+                }
+
+                else
+                {
+                    Debug.Log("Activate Guide");
+                    Instructions.SetActive(true);
+                    swiped = Swiped();
+                    if (swiped)
+                    {
+                        going_next_level = false;
+                        enemy_increment += 2;
+                    }
+                }
+            }            
+        }
+
+        else if(game_result == 1)
+        {
+            GameWin();
+        }
+
+        else { GameOver(); }
+
+        if ((game_result == 1 || game_result == 2) && Tapped())
+        {
+            SceneManager.LoadScene("Title Scene");
+        }
     }
 
     void UpdateUI()
@@ -95,23 +164,26 @@ public class GameSystem : MonoBehaviour
         if(health <= 0)
         {
             Debug.Log("Game Over");
-            Time.timeScale = 0;
+            GameResult.gameObject.SetActive(true);
+            GameResult.GetComponentInChildren<Text>().text = "GAME OVER";
+            Instructions.gameObject.SetActive(true);
+            Instructions.GetComponentInChildren<Text>().text = "TAP TO CONTINUE";
         }
     }
 
     void GameWin()
     {
-        if (wave == 5)
-        {
-            Debug.Log("Game Win");
-            Time.timeScale = 0;
-        }
+        Debug.Log("Game Win");
+        GameResult.gameObject.SetActive(true);
+        GameResult.GetComponentInChildren<Text>().text = "YOU SURVIVED";
+        Instructions.gameObject.SetActive(true);
+        Instructions.GetComponentInChildren<Text>().text = "TAP TO CONTINUE";
     }
 
     bool Swiped()
     {
         bool swiped = false;
-        if(Input.touchCount > 0)
+        if (Input.touchCount > 0)
         {
             trackedFinger1 = Input.GetTouch(0);
 
@@ -126,6 +198,7 @@ public class GameSystem : MonoBehaviour
                 if(gestureTime <= swipeTime && Vector2.Distance(startPoint, endPoint) >= Screen.dpi * +minSwipeDistance)
                 {
                     Debug.Log("Swipe!");
+                    Instructions.SetActive(false);
                     swiped = true;
                 }
             }
@@ -135,5 +208,35 @@ public class GameSystem : MonoBehaviour
             }
         }
         return swiped;
+    }
+
+    bool Tapped()
+    {
+        bool tapped = false;
+        if (Input.touchCount > 0)
+        {
+            trackedFinger1 = Input.GetTouch(0);
+
+            if (trackedFinger1.phase == TouchPhase.Began)
+            {
+                gestureTime = 0;
+                startPoint = trackedFinger1.position;
+            }
+            else if (trackedFinger1.phase == TouchPhase.Ended)
+            {
+                endPoint = trackedFinger1.position;
+                if (gestureTime <= tapTime && Vector2.Distance(startPoint, endPoint) < Screen.dpi * tapDistance)
+                {
+                    Debug.Log("Tap!");
+                    Instructions.SetActive(false);
+                    tapped = true;
+                }
+            }
+            else
+            {
+                gestureTime += Time.deltaTime;
+            }
+        }
+        return tapped;
     }
 }
