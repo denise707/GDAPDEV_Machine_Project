@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     private bool reachPlayer = false;
     private float ticks = 0.0f;
     private const float INTERVAL = 5.0f;
+    bool damage_received = false;
 
     // Start is called before the first frame update
     void Start()
@@ -91,6 +92,10 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         Destroy(this.gameObject, 1);
-        GameSystem.score += 50;
+        if (!damage_received)
+        {
+            GameSystem.score += 50;
+            damage_received = true;
+        }      
     }
 }

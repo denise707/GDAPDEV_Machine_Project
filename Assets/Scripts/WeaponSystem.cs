@@ -167,18 +167,24 @@ public class WeaponSystem : MonoBehaviour
         if(weap_name == "FAMAS")
         {
             FAMAS.damage_amount = damage_up;
+            FAMAS.magazine_size = magazine_up;
+            FAMAS.current_magazine = magazine_up;
             Debug.Log(FAMAS.damage_amount);
         }
 
         else if (weap_name == "AWP")
         {
             AWP.damage_amount = damage_up;
+            AWP.magazine_size = magazine_up;
+            AWP.current_magazine = magazine_up;
             Debug.Log(AWP.damage_amount);
         }
 
         else if (weap_name == "Six")
         {
-            Six.damage_amount = damage_up;
+            Six.damage_amount = damage_up; 
+            Six.magazine_size = magazine_up;
+            Six.current_magazine = magazine_up;
             Debug.Log(Six.damage_amount);
         }
 

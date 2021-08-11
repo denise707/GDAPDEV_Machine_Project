@@ -1234,7 +1234,7 @@ MonoBehaviour:
   Weapon_Holder_1: {fileID: 2037534621}
   Weapon_Holder_2: {fileID: 1390340152}
   Weapon_Holder_3: {fileID: 230721489}
-  Magazine_Holder: {fileID: 811151961}
+  Magazine_Holder: {fileID: 1935416667}
   change_weapon: 1
   on_shoot: 0
 --- !u!114 &1209354097
@@ -1846,6 +1846,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781559864}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1935416667 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 133195388249769899, guid: 277668edf4644da4f8378a9f679aa88c, type: 3}
+  m_PrefabInstance: {fileID: 807009138235545878}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1968890342 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7748247647830799670, guid: 3043f21eb659cba49acec39f70be80bd, type: 3}
