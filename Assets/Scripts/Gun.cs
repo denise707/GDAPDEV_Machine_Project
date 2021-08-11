@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
@@ -58,8 +59,6 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
-        //weaponsys.UpdateMagazine();
-        //bulletFlash.Play();
         Ray ray = Camera.main.ScreenPointToRay(this.transform.position);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
