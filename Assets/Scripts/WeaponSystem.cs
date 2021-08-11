@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,24 +9,20 @@ public class WeaponSystem : MonoBehaviour
     private GunType Six;
 
     //Weapon Holder (Used to show if equipped ot not)
-    [SerializeField] private GameObject WeaponHolder1;
-    [SerializeField] private GameObject WeaponHolder2;
-    [SerializeField] private GameObject WeaponHolder3;
-
-    //Weapon Button (used to either make it interactable or not)
-    [SerializeField] private Button WeaponButton2;
-    [SerializeField] private Button WeaponButton3;
+    [SerializeField] private GameObject Weapon_Holder_1;
+    [SerializeField] private GameObject Weapon_Holder_2;
+    [SerializeField] private GameObject Weapon_Holder_3;
 
     //Current magazine of gun equipped 
-    [SerializeField] private GameObject magazineHolder;    
+    [SerializeField] private GameObject Magazine_Holder;    
 
     //Button States
     Color pressed;
     Color normal;
 
-    private GunType selectedWeapon;
-    public bool changeWeapon = true;
-    public bool shoot = false;
+    private GunType selected_weapon;
+    public bool change_weapon = true;
+    public bool on_shoot = false;
     bool update_values = false;
 
     // Start is called before the first frame update
@@ -36,28 +30,28 @@ public class WeaponSystem : MonoBehaviour
     {
         //FAMAS Stats
         FAMAS = new GunType();
-        FAMAS.weaponName = "FAMAS";
-        FAMAS.damageAmount = 10f;
-        FAMAS.magazineSize = 10;
-        FAMAS.currentMagazine = 10;
+        FAMAS.weapon_name = "FAMAS";
+        FAMAS.damage_amount = 10f;
+        FAMAS.magazine_size = 10;
+        FAMAS.current_magazine = 10;
         FAMAS.color = "BLUE";
         FAMAS.available = true;
 
         //AWP Stats
         AWP = new GunType();
-        AWP.weaponName = "AWP";
-        AWP.damageAmount = 20f;
-        AWP.magazineSize = 10;
-        AWP.currentMagazine = 10;
+        AWP.weapon_name = "AWP";
+        AWP.damage_amount = 20f;
+        AWP.magazine_size = 10;
+        AWP.current_magazine = 10;
         AWP.color = "GREEN";
         AWP.available = false;
 
         //Six Stats
         Six = new GunType();
-        Six.weaponName = "Six";
-        Six.damageAmount = 30f;
-        Six.magazineSize = 20;
-        Six.currentMagazine = 20;
+        Six.weapon_name = "Six";
+        Six.damage_amount = 30f;
+        Six.magazine_size = 20;
+        Six.current_magazine = 20;
         Six.color = "RED";
         Six.available = false;
 
@@ -66,60 +60,60 @@ public class WeaponSystem : MonoBehaviour
         pressed = new Color(0f, 0f, 0f, 0.5f);
 
         //default
-        selectedWeapon = FAMAS;
-        WeaponHolder1.GetComponent<Image>().color = pressed;
-        magazineHolder.GetComponent<Text>().text = FAMAS.currentMagazine + " / " + FAMAS.magazineSize;
+        selected_weapon = FAMAS;
+        Weapon_Holder_1.GetComponent<Image>().color = pressed;
+        Magazine_Holder.GetComponent<Text>().text = FAMAS.current_magazine + " / " + FAMAS.magazine_size;
     }
 
     // Update is called once per frame
     void Update()
     {
         //Update current  magazine
-        if(selectedWeapon.weaponName == "FAMAS")
+        if(selected_weapon.weapon_name == "FAMAS")
         {
-            if (shoot)
+            if (on_shoot)
             {
-                FAMAS.currentMagazine -= 1;
+                FAMAS.current_magazine -= 1;
             }              
-            magazineHolder.GetComponent<Text>().text = FAMAS.currentMagazine + " / " + FAMAS.magazineSize;
+            Magazine_Holder.GetComponent<Text>().text = FAMAS.current_magazine + " / " + FAMAS.magazine_size;
         }
 
-        if (selectedWeapon.weaponName == "AWP")
+        if (selected_weapon.weapon_name == "AWP")
         {
-            if (shoot)
+            if (on_shoot)
             {
-                AWP.currentMagazine -= 1;
+                AWP.current_magazine -= 1;
             }
-            magazineHolder.GetComponent<Text>().text = AWP.currentMagazine + " / " + AWP.magazineSize;
+            Magazine_Holder.GetComponent<Text>().text = AWP.current_magazine + " / " + AWP.magazine_size;
         }
 
-        if (selectedWeapon.weaponName == "Six")
+        if (selected_weapon.weapon_name == "Six")
         {
-            if (shoot)
+            if (on_shoot)
             {
-                Six.currentMagazine -= 1;
+                Six.current_magazine -= 1;
             }
-            magazineHolder.GetComponent<Text>().text = Six.currentMagazine + " / " + Six.magazineSize;
+            Magazine_Holder.GetComponent<Text>().text = Six.current_magazine + " / " + Six.magazine_size;
         }
 
-        shoot = false;
+        on_shoot = false;
 
         //Update stats from upgrade
         if (update_values)
         {
-            if(selectedWeapon.weaponName == "FAMAS")
+            if(selected_weapon.weapon_name == "FAMAS")
             {
-                selectedWeapon = FAMAS;
+                selected_weapon = FAMAS;
             }
 
-            else if (selectedWeapon.weaponName == "AWP")
+            else if (selected_weapon.weapon_name == "AWP")
             {
-                selectedWeapon = AWP;
+                selected_weapon = AWP;
             }
 
-            else if (selectedWeapon.weaponName == "Six")
+            else if (selected_weapon.weapon_name == "Six")
             {
-                selectedWeapon = Six;
+                selected_weapon = Six;
             }
 
             update_values = false;
@@ -129,41 +123,41 @@ public class WeaponSystem : MonoBehaviour
     //Get currently equipped weapon
     public GunType GetEquipped()
     {
-        return selectedWeapon;
+        return selected_weapon;
     }
 
-    public void selectFAMAS()
+    public void SelectFAMAS()
     {
-        selectedWeapon = FAMAS;
-        changeWeapon = true;
-        WeaponHolder1.GetComponent<Image>().color = pressed;
-        WeaponHolder2.GetComponent<Image>().color = normal;
-        WeaponHolder3.GetComponent<Image>().color = normal;
+        selected_weapon = FAMAS;
+        change_weapon = true;
+        Weapon_Holder_1.GetComponent<Image>().color = pressed;
+        Weapon_Holder_2.GetComponent<Image>().color = normal;
+        Weapon_Holder_3.GetComponent<Image>().color = normal;
         Debug.Log("Changed to FAMAS");
     }
 
-    public void selectAWP()
+    public void SelectAWP()
     {
         if (AWP.available)
         {
-            selectedWeapon = AWP;
-            changeWeapon = true;
-            WeaponHolder1.GetComponent<Image>().color = normal;
-            WeaponHolder2.GetComponent<Image>().color = pressed;
-            WeaponHolder3.GetComponent<Image>().color = normal;
+            selected_weapon = AWP;
+            change_weapon = true;
+            Weapon_Holder_1.GetComponent<Image>().color = normal;
+            Weapon_Holder_2.GetComponent<Image>().color = pressed;
+            Weapon_Holder_3.GetComponent<Image>().color = normal;
             Debug.Log("Changed to AWP");
         }       
     }
 
-    public void selectSix()
+    public void SelectSix()
     {
         if (Six.available)
         {
-            selectedWeapon = Six;
-            changeWeapon = true;
-            WeaponHolder1.GetComponent<Image>().color = normal;
-            WeaponHolder2.GetComponent<Image>().color = normal;
-            WeaponHolder3.GetComponent<Image>().color = pressed;
+            selected_weapon = Six;
+            change_weapon = true;
+            Weapon_Holder_1.GetComponent<Image>().color = normal;
+            Weapon_Holder_2.GetComponent<Image>().color = normal;
+            Weapon_Holder_3.GetComponent<Image>().color = pressed;
             Debug.Log("Changed to Six");
         }
     }
@@ -172,20 +166,20 @@ public class WeaponSystem : MonoBehaviour
     {
         if(weap_name == "FAMAS")
         {
-            FAMAS.damageAmount = damage_up;
-            Debug.Log(FAMAS.damageAmount);
+            FAMAS.damage_amount = damage_up;
+            Debug.Log(FAMAS.damage_amount);
         }
 
         else if (weap_name == "AWP")
         {
-            AWP.damageAmount = damage_up;
-            Debug.Log(AWP.damageAmount);
+            AWP.damage_amount = damage_up;
+            Debug.Log(AWP.damage_amount);
         }
 
         else if (weap_name == "Six")
         {
-            Six.damageAmount = damage_up;
-            Debug.Log(Six.damageAmount);
+            Six.damage_amount = damage_up;
+            Debug.Log(Six.damage_amount);
         }
 
         update_values = true;
@@ -196,17 +190,17 @@ public class WeaponSystem : MonoBehaviour
         if(gun == "AWP")
         {
             AWP.available = true;
-            WeaponHolder2.GetComponent<Image>().color = normal;
-            WeaponButton2.interactable = true;
-            Debug.Log("You bought" + selectedWeapon.weaponName);
+            Weapon_Holder_2.GetComponent<Image>().color = normal;
+            Weapon_Holder_2.GetComponent<Button>().interactable = true;
+            Debug.Log("You bought" + selected_weapon.weapon_name);
         }
 
         if (gun == "Six")
         {
             Six.available = true;
-            WeaponHolder3.GetComponent<Image>().color = normal;
-            WeaponButton3.interactable = true;
-            Debug.Log("You bought" + selectedWeapon.weaponName);
+            Weapon_Holder_3.GetComponent<Image>().color = normal;
+            Weapon_Holder_3.GetComponent<Button>().interactable = true;
+            Debug.Log("You bought" + selected_weapon.weapon_name);
         }
     }
 

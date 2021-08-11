@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    protected Joystick joystick;
+    protected Joystick JoyStick;
     protected UICallbackScript UICallback;
-    protected GameSystem gamesys;
-    protected WeaponSystem weaponsys;
+    protected GameSystem GameSys;
+    protected WeaponSystem WeaponSys;
 
     //public ParticleSystem bulletFlash;
 
@@ -16,16 +16,16 @@ public class Gun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        joystick = FindObjectOfType<Joystick>();
+        JoyStick = FindObjectOfType<Joystick>();
         UICallback = FindObjectOfType<UICallbackScript>();
-        gamesys = FindObjectOfType<GameSystem>();
-        weaponsys = FindObjectOfType<WeaponSystem>();
+        GameSys = FindObjectOfType<GameSystem>();
+        WeaponSys = FindObjectOfType<WeaponSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (weaponsys.changeWeapon)
+        if (WeaponSys.change_weapon)
         {
             ChangeGun();
             
@@ -36,7 +36,10 @@ public class Gun : MonoBehaviour
 
         if (UICallback.shoot)
         {
-            Shoot();
+            if(WeaponSys.GetStats(selectedWeapon.weapon_name).current_magazine > 0)
+            {
+                Shoot();
+            }           
         }
     }
 
@@ -44,11 +47,11 @@ public class Gun : MonoBehaviour
     {
         var crosshair = GetComponent<Rigidbody2D>();
 
-        crosshair.velocity = new Vector3(joystick.Horizontal * 300f, joystick.Vertical * 300f, 0);
+        crosshair.velocity = new Vector3(JoyStick.Horizontal * 300f, JoyStick.Vertical * 300f, 0);
 
-        if (this.transform.localPosition.x <= -882 && joystick.Horizontal <= 0)
+        if (this.transform.localPosition.x <= -882 && JoyStick.Horizontal <= 0)
         {
-            crosshair.velocity = new Vector3(-joystick.Horizontal * 300f, 0, 0);
+            crosshair.velocity = new Vector3(-JoyStick.Horizontal * 300f, 0, 0);
         }
     }
 
@@ -68,8 +71,8 @@ public class Gun : MonoBehaviour
             {
                 //if(selectedWeapon.color == "BLUE")
                 //{
-                enemy.TakeDamage(this.selectedWeapon.damageAmount);
-                Debug.Log("Damage: " + selectedWeapon.damageAmount);
+                enemy.TakeDamage(this.selectedWeapon.damage_amount);
+                Debug.Log("Damage: " + selectedWeapon.damage_amount);
                 //}
                 //else
                 //{
@@ -77,11 +80,11 @@ public class Gun : MonoBehaviour
                 //}
             }
         }
-        weaponsys.shoot = true;
+        WeaponSys.on_shoot = true;
         UICallback.shoot = false;
     }
     void ChangeGun()
     {
-        this.selectedWeapon = weaponsys.GetEquipped();      
+        this.selectedWeapon = WeaponSys.GetEquipped();      
     }
 }

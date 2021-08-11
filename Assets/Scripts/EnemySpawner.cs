@@ -22,23 +22,28 @@ public class EnemySpawner : MonoBehaviour
     bool waveReleased = false;
     int index = 0;
     float ticks = 0.0f;
+    int total_enemies = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        //Add availlable enemies
         enemyCopies.Add(waspCopy);
         enemyCopies.Add(metalArmCopy);
         enemyCopies.Add(insectCopy);
+        enemyCopies.Add(mutantCopy);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameSystem.next)
+        if (GameSystem.next && !GameSystem.boss_level)
         {
-            for (int i = 0; i < Random.Range(5, 8); i++)
+            //To change possible number of enemies per wave
+            total_enemies = Random.Range(1, 2);
+            for (int i = 0; i < total_enemies; i++)
             {
-                GameObject enemyCopy = enemyCopies[Random.Range(0, enemyCopies.Count)];
+                GameObject enemyCopy = enemyCopies[Random.Range(0, enemyCopies.Count - 1)];
                 Vector3 newLocation = GetLocation(enemyCopy)[Random.Range(0, GetLocation(enemyCopy).Count - 1)].transform.position;
                 enemyCopy = ObjectUtils.SpawnDefault(enemyCopy, this.transform.parent, newLocation);
                 enemyCopy.SetActive(true);
@@ -49,6 +54,24 @@ public class EnemySpawner : MonoBehaviour
             waveReleased = false;
         }
 
+        if (GameSystem.next && GameSystem.boss_level)
+        {
+            //To change possible number of enemies per wave
+            total_enemies = 1;
+            for (int i = 0; i < total_enemies; i++)
+            {
+                GameObject enemyCopy = enemyCopies[3];
+                Vector3 newLocation = groundLoc[1].transform.position;
+                enemyCopy = ObjectUtils.SpawnDefault(enemyCopy, this.transform.parent, newLocation);
+                enemyCopy.SetActive(true);
+                enemyList.Add(enemyCopy);
+            }
+            GameSystem.next = false;
+            count = enemyList.Count;
+            waveReleased = false;
+        }
+
+        //If all enemies for a wave is released, check if need to delete from list
         if (waveReleased)
         {
             for (int i = 0; i < enemyList.Count; i++)
@@ -62,7 +85,8 @@ public class EnemySpawner : MonoBehaviour
             if (count <= 0) index = 0;
         }
 
-        if (index > 4)
+        //Check if wave is released
+        if (index > total_enemies - 1)
         {
             waveReleased = true;
         }

@@ -61,10 +61,7 @@ public class Enemy : MonoBehaviour
             ticks += Time.deltaTime;
             if(ticks >= INTERVAL)
             {
-                animator.SetBool("Attack", true);
-                GameSystem.Health -= damage;
-                float health = GameSystem.Health;
-                //Debug.Log(health);
+                animator.SetBool("Attack", true);               
                 ticks = 0.0f;
             }
 
@@ -73,6 +70,11 @@ public class Enemy : MonoBehaviour
                 animator.SetBool("Attack", false);
             }
         }
+    }
+
+    public void DamagePlayer()
+    {
+        GameSystem.health -= damage;
     }
 
     public void TakeDamage(float amount)

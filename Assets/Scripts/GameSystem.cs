@@ -6,26 +6,27 @@ using UnityEngine.SceneManagement;
 
 public class GameSystem : MonoBehaviour
 {
-    protected UICallbackScript UICallback;
-
     //Player
-    public static float Health = 100;
-    [SerializeField] private GameObject healthBar;
-    
+    public static float health = 100;
+    [SerializeField] private GameObject Health_Bar;
+    [SerializeField] private Text Health_Holder;
+
     public static int score = 0;
-    [SerializeField] private GameObject scoreHolder;
+    [SerializeField] private GameObject Score_Holder;
 
     public int credits = 500;
-    [SerializeField] private Text creditHolder;
+    [SerializeField] private Text Credit_Holder;
 
     //Level
     public static int stage = 1;
     public static int wave = 1;
+    public static bool boss_level = true;
     public static bool next = false;
 
     //Backgrounds
-    [SerializeField] GameObject Wave1;
-    [SerializeField] GameObject Wave2;
+    [SerializeField] GameObject Wave_1_BG;
+    [SerializeField] GameObject Wave_2_BG;
+    [SerializeField] GameObject Wave_3_BG;
 
     // Start is called before the first frame update
     void Awake()
@@ -41,25 +42,55 @@ public class GameSystem : MonoBehaviour
             switch (wave)
             {
                 case 1:
-                    Wave1.SetActive(true);
+                    Wave_1_BG.SetActive(true);
                     break;                    
 
                 case 2:
-                    Wave1.SetActive(false);
-                    Wave2.SetActive(true);
+                    Wave_1_BG.SetActive(false);
+                    Wave_2_BG.SetActive(true);
                     break;
+
+                case 3:
+                    Wave_1_BG.SetActive(false);
+                    Wave_2_BG.SetActive(false);
+                    Wave_3_BG.SetActive(true);
+                    boss_level = true;
+                    break;
+
+                //case 4: break;
             }
             next = true;
             wave++;
         }
 
         UpdateUI();
+        GameOver();
+        GameWin();
     }
 
     void UpdateUI()
     {
-        healthBar.GetComponent<Image>().fillAmount = Health / 100;
-        scoreHolder.GetComponent<Text>().text = score.ToString();
-        creditHolder.text = credits.ToString();
+        Health_Bar.GetComponent<Image>().fillAmount = health / 100;
+        Health_Holder.GetComponent<Text>().text = health.ToString() + " / " + 100;
+        Score_Holder.GetComponent<Text>().text = score.ToString();
+        Credit_Holder.text = credits.ToString();
+    }
+
+    void GameOver()
+    {
+        if(health <= 0)
+        {
+            Debug.Log("Game Over");
+            Time.timeScale = 0;
+        }
+    }
+
+    void GameWin()
+    {
+        if (wave == 5)
+        {
+            Debug.Log("Game Win");
+            Time.timeScale = 0;
+        }
     }
 }
