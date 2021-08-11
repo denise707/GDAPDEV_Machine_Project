@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     //Enemy Stats
     [SerializeField] private float speed = 0.05f;
     public float health = 50.0f;
-    private float damage = 20.0f;
+    public float damage = 20.0f;
     public Animator animator;
     public string type;
     public bool move = false;
