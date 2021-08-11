@@ -22,11 +22,22 @@ public class GameSystem : MonoBehaviour
     public static int wave = 1;
     public static bool boss_level = false;
     public static bool next = false;
+    bool next_level = true;
+    public static int enemy_increment = 1;
 
     //Backgrounds
     [SerializeField] GameObject Wave_1_BG;
     [SerializeField] GameObject Wave_2_BG;
     [SerializeField] GameObject Wave_3_BG;
+
+    //Gestures
+    private Touch trackedFinger1;
+    float gestureTime = 0.0f;
+    Vector2 startPoint;
+    Vector2 endPoint;
+
+    float minSwipeDistance = 2f;
+    float swipeTime = 0.7f;
 
     // Start is called before the first frame update
     void Awake()
@@ -37,7 +48,7 @@ public class GameSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (EnemySpawner.count <= 0 && next == false)
+        if (EnemySpawner.count <= 0 && next == false && next_level)
         {
             switch (wave)
             {
@@ -57,12 +68,14 @@ public class GameSystem : MonoBehaviour
                     boss_level = true;
                     break;
 
-                //case 4: break;
+                case 4: GameWin(); break;
             }
             next = true;
             wave++;
+            //enemy_increment += 0;         
         }
 
+        next_level = Swiped();
         UpdateUI();
         //GameOver();
         //GameWin();
@@ -92,5 +105,34 @@ public class GameSystem : MonoBehaviour
             Debug.Log("Game Win");
             Time.timeScale = 0;
         }
+    }
+
+    bool Swiped()
+    {
+        bool swiped = false;
+        if(Input.touchCount > 0)
+        {
+            trackedFinger1 = Input.GetTouch(0);
+
+            if(trackedFinger1.phase == TouchPhase.Began)
+            {
+                gestureTime = 0;
+                startPoint = trackedFinger1.position;
+            }
+            else if(trackedFinger1.phase == TouchPhase.Ended)
+            {
+                endPoint = trackedFinger1.position;
+                if(gestureTime <= swipeTime && Vector2.Distance(startPoint, endPoint) >= Screen.dpi * +minSwipeDistance)
+                {
+                    Debug.Log("Swipe!");
+                    swiped = true;
+                }
+            }
+            else
+            {
+                gestureTime += Time.deltaTime;
+            }
+        }
+        return swiped;
     }
 }
