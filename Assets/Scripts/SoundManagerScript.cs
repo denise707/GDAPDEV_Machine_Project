@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundManagerScript : MonoBehaviour
 {
-    public static AudioClip default_bgm, shoot_sfx, monster_sfx;
+    public static AudioClip default_bgm, shoot_sfx, monster_sfx, button_sfx;
     static AudioSource audioSrc;
 
     // Start is called before the first frame update
@@ -12,6 +12,8 @@ public class SoundManagerScript : MonoBehaviour
     {
         default_bgm = Resources.Load<AudioClip>("BGM_Default");
         monster_sfx = Resources.Load<AudioClip>("Monster");
+        shoot_sfx = Resources.Load<AudioClip>("Shoot");
+        button_sfx = Resources.Load<AudioClip>("Button");
 
         audioSrc = GetComponent<AudioSource>();
     }
@@ -31,6 +33,12 @@ public class SoundManagerScript : MonoBehaviour
                 break;
             case "Monster":
                 audioSrc.PlayOneShot(monster_sfx);
+                break;
+            case "Shoot":
+                audioSrc.PlayOneShot(shoot_sfx);
+                break;
+            case "Button":
+                audioSrc.PlayOneShot(button_sfx);
                 break;
         }
     }

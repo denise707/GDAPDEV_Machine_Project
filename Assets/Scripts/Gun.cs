@@ -68,6 +68,7 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
+        SoundManagerScript.PlaySound("Shoot");
         Ray ray = Camera.main.ScreenPointToRay(this.transform.position);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))

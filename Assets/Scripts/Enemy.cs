@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SoundManagerScript.PlaySound("Monster");
     }
 
     // Update is called once per frame
@@ -62,6 +62,7 @@ public class Enemy : MonoBehaviour
             ticks += Time.deltaTime;
             if(ticks >= INTERVAL)
             {
+                SoundManagerScript.PlaySound("Monster");
                 animator.SetBool("Attack", true);
                 ticks = 0.0f;
             }
@@ -91,6 +92,7 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        SoundManagerScript.PlaySound("Monster");
         Destroy(this.gameObject, 1);
         if (!damage_received)
         {
