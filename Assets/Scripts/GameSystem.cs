@@ -48,6 +48,8 @@ public class GameSystem : MonoBehaviour
     float tapTime = 0.7f;
     float tapDistance = 0.1f;
 
+    public static bool activated = true;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -163,6 +165,7 @@ public class GameSystem : MonoBehaviour
     {
         if(health <= 0)
         {
+            Time.timeScale = 0;
             Debug.Log("Game Over");
             GameResult.gameObject.SetActive(true);
             GameResult.GetComponentInChildren<Text>().text = "GAME OVER";
@@ -174,6 +177,7 @@ public class GameSystem : MonoBehaviour
     void GameWin()
     {
         Debug.Log("Game Win");
+        Time.timeScale = 0;
         GameResult.gameObject.SetActive(true);
         GameResult.GetComponentInChildren<Text>().text = "YOU SURVIVED";
         Instructions.gameObject.SetActive(true);

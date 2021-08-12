@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
-    protected Joystick JoyStick;
+    protected OnScreenJoystick JoyStick;
     protected UICallbackScript UICallback;
     protected GameSystem GameSys;
     protected WeaponSystem WeaponSys;
@@ -16,11 +16,20 @@ public class Gun : MonoBehaviour
     float bonus_damage = 0.0f;
     const float fire_rate = 1.0f;
     float ticks = 0.0f;
+    float speed = 300f;
+
+    //Gestures
+    private Touch trackedFinger1;
+    float gestureTime = 0.0f;
+    Vector2 startPoint;
+    Vector2 endPoint;
+
+    float bufferTime = 0.8f;
 
     // Start is called before the first frame update
     void Start()
     {
-        JoyStick = FindObjectOfType<Joystick>();
+        JoyStick = FindObjectOfType<OnScreenJoystick>();
         UICallback = FindObjectOfType<UICallbackScript>();
         GameSys = FindObjectOfType<GameSystem>();
         WeaponSys = FindObjectOfType<WeaponSystem>();
@@ -34,10 +43,11 @@ public class Gun : MonoBehaviour
             ChangeGun();
             
         }
+            if (Dragged() && !GameSystem.activated)
+            {
+                transform.position = trackedFinger1.position;
+            }
         
-
-        MoveCrosshair();
-
         ticks += Time.deltaTime;
 
         if (UICallback.shoot)
@@ -56,14 +66,14 @@ public class Gun : MonoBehaviour
 
     void MoveCrosshair()
     {
-        var crosshair = GetComponent<Rigidbody2D>();
-
-        crosshair.velocity = new Vector3(JoyStick.Horizontal * 300f, JoyStick.Vertical * 300f, 0);
-
-        if (this.transform.localPosition.x <= -882 && JoyStick.Horizontal <= 0)
+        if (GameSystem.activated)
         {
-            crosshair.velocity = new Vector3(-JoyStick.Horizontal * 300f, 0, 0);
+            Debug.Log("Here");
+            float x = JoyStick.JoystickAxis.x;
+            float y = JoyStick.JoystickAxis.y;
+            transform.Translate(x * speed * Time.deltaTime, y * speed * Time.deltaTime, 0);
         }
+        
     }
 
     void Shoot()
@@ -104,5 +114,38 @@ public class Gun : MonoBehaviour
     void ChangeGun()
     {
         this.selectedWeapon = WeaponSys.GetEquipped();      
+    }
+
+    bool Dragged()
+    {
+        bool dragged = false;
+        if (Input.touchCount > 0)
+        {
+            Ray r = Camera.main.ScreenPointToRay(trackedFinger1.position);
+
+            //Assign the tracked finger
+            trackedFinger1 = Input.GetTouch(0);
+
+            if (trackedFinger1.phase == TouchPhase.Began)
+            {
+                startPoint = trackedFinger1.position;
+                gestureTime = 0;
+            }
+            else if (trackedFinger1.phase == TouchPhase.Ended)
+            {
+                endPoint = trackedFinger1.position;
+            }
+
+            else
+            {
+                gestureTime += Time.deltaTime;
+                if (gestureTime >= bufferTime)
+                {
+                    dragged = true;
+                }
+            }
+        }
+
+        return dragged;
     }
 }

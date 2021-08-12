@@ -40,14 +40,4 @@ public class UICallbackScript : MonoBehaviour
         gameMenu.SetActive(true);
         shopMenu.SetActive(false);
     }
-    //---Game Menu---//
-
-
-    //---Shop Menu---//
-    public void onBuy()
-    {
-
-    }
-
-    //---Shop Menu---//
 }

@@ -58,6 +58,15 @@ public class ShopSystem : MonoBehaviour
     int damage_cost = 0;
     int magazine_cost = 0;
 
+    //Gestures
+
+    private Touch trackedFinger1;
+    float gestureTime = 0.0f;
+    Vector2 startPoint;
+    Vector2 endPoint;
+
+    float bufferTime = 0.8f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,7 +81,7 @@ public class ShopSystem : MonoBehaviour
     void Update()
     {
         Credit_Holder.text = $"Credits: {GameSystem.credits}";
-        Bill_Holder.text = $"Total: {damage_cost + magazine_cost}";    
+        Bill_Holder.text = $"Total: {damage_cost + magazine_cost}";
     }
 
     //----------------Start of Buy Weapons----------------//
@@ -83,7 +92,7 @@ public class ShopSystem : MonoBehaviour
         {
             Debug.Log(GameSystem.credits);
             int current_credits = GameSystem.credits - AWP_Price;
-            message.text = "Are you sure you wan to buy AWP for " + AWP_Price + " Credits?";
+            message.text = "Are you sure you want to buy AWP for " + AWP_Price + " Credits?";
             item_name = "AWP";                      
         }
 
@@ -105,7 +114,7 @@ public class ShopSystem : MonoBehaviour
         {
             Debug.Log(GameSystem.credits);
             int current_credits = GameSystem.credits - Six_Price;
-            message.text = "Are you sure you wan to buy Six for " + Six_Price + " Credits?";
+            message.text = "Are you sure you want to buy Six for " + Six_Price + " Credits?";
             item_name = "Six";
         }
 
@@ -344,4 +353,35 @@ public class ShopSystem : MonoBehaviour
         return magazine_cost;
     }
     //----------------End of Upgrade Weapons----------------//
+
+    //----------------Healing-------------------//
+    bool Dragged()
+    {
+        bool dragged = false;
+        if (Input.touchCount > 0)
+        {
+            trackedFinger1 = Input.GetTouch(0);
+
+            if (trackedFinger1.phase == TouchPhase.Began)
+            {
+                gestureTime = 0;
+                startPoint = trackedFinger1.position;
+            }
+            else if (trackedFinger1.phase == TouchPhase.Ended)
+            {
+                endPoint = trackedFinger1.position;
+            }
+            else
+            {
+                gestureTime += Time.deltaTime;
+                //If finger is on screen long enough
+                if(gestureTime >= bufferTime)
+                {
+                    Debug.Log("Drag");
+                    dragged = true;
+                }
+            }
+        }
+        return dragged;
+    }
 }
