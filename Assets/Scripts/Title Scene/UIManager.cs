@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public void onStart()
     {
         SceneManager.LoadScene("Level 1");
+        Time.timeScale = 1;
     }
 
     public void onExit()
