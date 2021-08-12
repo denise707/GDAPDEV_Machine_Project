@@ -43,10 +43,13 @@ public class Gun : MonoBehaviour
             ChangeGun();
             
         }
-            if (Dragged() && !GameSystem.activated)
-            {
-                transform.position = trackedFinger1.position;
-            }
+
+        MoveCrosshair();
+
+        if (Dragged() && !Options.aim_mode)
+        {
+            transform.position = trackedFinger1.position;
+        }
         
         ticks += Time.deltaTime;
 
@@ -66,7 +69,7 @@ public class Gun : MonoBehaviour
 
     void MoveCrosshair()
     {
-        if (GameSystem.activated)
+        if (Options.aim_mode)
         {
             Debug.Log("Here");
             float x = JoyStick.JoystickAxis.x;

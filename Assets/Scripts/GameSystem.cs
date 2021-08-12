@@ -48,8 +48,6 @@ public class GameSystem : MonoBehaviour
     float tapTime = 0.7f;
     float tapDistance = 0.1f;
 
-    public static bool activated = true;
-
     // Start is called before the first frame update
     void Awake()
     {
