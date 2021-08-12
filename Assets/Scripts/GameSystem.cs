@@ -126,7 +126,6 @@ public class GameSystem : MonoBehaviour
 
                 else
                 {
-                    Debug.Log("Activate Guide");
                     Instructions.SetActive(true);
                     swiped = Swiped();
                     if (swiped)
