@@ -55,7 +55,7 @@ public class Gun : MonoBehaviour
 
         if (UICallback.shoot)
         {
-            if(WeaponSys.GetStats(selectedWeapon.weapon_name).current_magazine > 0 && ticks >= fire_rate)
+            if((WeaponSys.GetStats(selectedWeapon.weapon_name).current_magazine > 0 && ticks >= fire_rate) || Options.unli_ammo)
             {
                 Shoot();
                 ticks = 0.0f;
@@ -71,7 +71,6 @@ public class Gun : MonoBehaviour
     {
         if (Options.aim_mode)
         {
-            Debug.Log("Here");
             float x = JoyStick.JoystickAxis.x;
             float y = JoyStick.JoystickAxis.y;
             transform.Translate(x * speed * Time.deltaTime, y * speed * Time.deltaTime, 0);
