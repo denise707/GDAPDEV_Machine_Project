@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Options : MonoBehaviour
 {
     public static bool aim_mode = true;
+    [SerializeField] GameObject Joystick;
 
     // Start is called before the first frame update
     void Start()
@@ -23,10 +24,14 @@ public class Options : MonoBehaviour
     {
         if(dd.options[dd.value].text == "Crosshair") {
             aim_mode = true;
+            Joystick.SetActive(true);
         }
         else
         {
             aim_mode = false;
+            Joystick.SetActive(false);
         }
+
+        Debug.Log($"Options: {dd.options[dd.value].text}");
     }
 }
