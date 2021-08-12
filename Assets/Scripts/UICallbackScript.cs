@@ -23,7 +23,6 @@ public class UICallbackScript : MonoBehaviour
         
     }
 
-    //---Game Menu---//
     public void onShoot()
     {
         shoot = true;
@@ -39,5 +38,16 @@ public class UICallbackScript : MonoBehaviour
         SoundManagerScript.PlaySound("Button");
         gameMenu.SetActive(true);
         shopMenu.SetActive(false);
+    }
+    public void openOptions(GameObject options)
+    {
+        options.SetActive(true);
+        gameMenu.SetActive(false);
+    }
+
+    public void closeOptions(GameObject options)
+    {
+        options.SetActive(false);
+        gameMenu.SetActive(true);
     }
 }

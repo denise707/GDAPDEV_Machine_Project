@@ -11,26 +11,37 @@ public class OnScreenParent : MonoBehaviour, IDragHandler, IPointerDownHandler, 
 
     public void OnDrag(PointerEventData eventData)
     {
-        joystick.OnDrag(eventData);
+        if (Options.aim_mode)
+        {
+            joystick.OnDrag(eventData);
+        }
+            
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Vector2 localPos;
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(hitbox.rectTransform, eventData.position, eventData.pressEventCamera, out localPos))
+        if (Options.aim_mode)
         {
-            joystick.gameObject.SetActive(true);
-            RectTransform rTrans = joystick.gameObject.GetComponent<RectTransform>();
-            rTrans.localPosition = localPos;
+            Vector2 localPos;
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(hitbox.rectTransform, eventData.position, eventData.pressEventCamera, out localPos))
+            {
+                joystick.gameObject.SetActive(true);
+                RectTransform rTrans = joystick.gameObject.GetComponent<RectTransform>();
+                rTrans.localPosition = localPos;
 
-            joystick.OnPointerDown(eventData);
-        }
+                joystick.OnPointerDown(eventData);
+            }
+
+        }   
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        joystick.gameObject.SetActive(false);
-        joystick.OnPointerUp(eventData);
+        if (Options.aim_mode)
+        {
+            joystick.gameObject.SetActive(false);
+            joystick.OnPointerUp(eventData);
+        }     
     }
 
     // Start is called before the first frame update
