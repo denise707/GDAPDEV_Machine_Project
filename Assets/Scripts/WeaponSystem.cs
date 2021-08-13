@@ -74,7 +74,12 @@ public class WeaponSystem : MonoBehaviour
             if (on_shoot)
             {
                 FAMAS.current_magazine -= 1;
-            }              
+            }
+
+            if (Gun.reload)
+            {
+                FAMAS.current_magazine = FAMAS.magazine_size;
+            }
             Magazine_Holder.GetComponent<Text>().text = FAMAS.current_magazine + " / " + FAMAS.magazine_size;
         }
 
@@ -83,6 +88,11 @@ public class WeaponSystem : MonoBehaviour
             if (on_shoot)
             {
                 AWP.current_magazine -= 1;
+            }
+
+            if (Gun.reload)
+            {
+                AWP.current_magazine = AWP.magazine_size;
             }
             Magazine_Holder.GetComponent<Text>().text = AWP.current_magazine + " / " + AWP.magazine_size;
         }
@@ -93,10 +103,16 @@ public class WeaponSystem : MonoBehaviour
             {
                 Six.current_magazine -= 1;
             }
+
+            if (Gun.reload)
+            {
+                Six.current_magazine = Six.magazine_size;
+            }
             Magazine_Holder.GetComponent<Text>().text = Six.current_magazine + " / " + Six.magazine_size;
         }
 
         on_shoot = false;
+        Gun.reload = false;
 
         //Update stats from upgrade
         if (update_values)
@@ -169,7 +185,6 @@ public class WeaponSystem : MonoBehaviour
             FAMAS.damage_amount = damage_up;
             FAMAS.magazine_size = magazine_up;
             FAMAS.current_magazine = magazine_up;
-            Debug.Log(FAMAS.damage_amount);
         }
 
         else if (weap_name == "AWP")
@@ -177,7 +192,6 @@ public class WeaponSystem : MonoBehaviour
             AWP.damage_amount = damage_up;
             AWP.magazine_size = magazine_up;
             AWP.current_magazine = magazine_up;
-            Debug.Log(AWP.damage_amount);
         }
 
         else if (weap_name == "Six")
@@ -185,7 +199,6 @@ public class WeaponSystem : MonoBehaviour
             Six.damage_amount = damage_up; 
             Six.magazine_size = magazine_up;
             Six.current_magazine = magazine_up;
-            Debug.Log(Six.damage_amount);
         }
 
         update_values = true;
@@ -198,7 +211,7 @@ public class WeaponSystem : MonoBehaviour
             AWP.available = true;
             Weapon_Holder_2.GetComponent<Image>().color = normal;
             Weapon_Holder_2.GetComponent<Button>().interactable = true;
-            Debug.Log("You bought" + selected_weapon.weapon_name);
+
         }
 
         if (gun == "Six")
@@ -206,7 +219,6 @@ public class WeaponSystem : MonoBehaviour
             Six.available = true;
             Weapon_Holder_3.GetComponent<Image>().color = normal;
             Weapon_Holder_3.GetComponent<Button>().interactable = true;
-            Debug.Log("You bought" + selected_weapon.weapon_name);
         }
     }
 

@@ -95,7 +95,7 @@ public class EnemySpawner : MonoBehaviour
         {
             ticks += Time.deltaTime;
 
-            if (ticks >= Random.Range(3.0f, 7.0f))
+            if (ticks >= Random.Range(3.0f, 13.0f))
             {
                 enemyList[index].GetComponent<Enemy>().move = true;
                 index++;

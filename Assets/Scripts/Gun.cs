@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
+    [SerializeField] GameObject ReloadUI;
+ 
     protected OnScreenJoystick JoyStick;
     protected UICallbackScript UICallback;
     protected GameSystem GameSys;
@@ -14,17 +16,24 @@ public class Gun : MonoBehaviour
 
     private GunType selectedWeapon;
     float bonus_damage = 0.0f;
-    const float fire_rate = 1.0f;
+    const float fire_rate = 0.5f;
     float ticks = 0.0f;
     float speed = 300f;
 
     //Gestures
     private Touch trackedFinger1;
+    private Touch trackedFinger2;
     float gestureTime = 0.0f;
     Vector2 startPoint;
     Vector2 endPoint;
 
     float bufferTime = 0.8f;
+    float maxDistance = 0.4f;
+
+    bool panned = false;
+    public static bool reload = false;
+    float reload_ticks = 0.0f;
+    const float reload_time = 5.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -55,7 +64,7 @@ public class Gun : MonoBehaviour
 
         if (UICallback.shoot)
         {
-            if((WeaponSys.GetStats(selectedWeapon.weapon_name).current_magazine > 0 && ticks >= fire_rate) || Options.unli_ammo)
+            if((WeaponSys.GetStats(selectedWeapon.weapon_name).current_magazine > 0 && ticks >= fire_rate && !panned) || Options.unli_ammo)
             {
                 Shoot();
                 ticks = 0.0f;
@@ -64,6 +73,27 @@ public class Gun : MonoBehaviour
             {
                 UICallback.shoot = false;
             }
+        }
+
+        if (Panned() && !panned)
+        {
+            panned = true;
+            SoundManagerScript.PlaySound("ReloadAgain");
+            ReloadUI.SetActive(true);
+        }
+
+        if (panned)
+        {
+            reload_ticks += Time.deltaTime;
+        }
+    
+        if (panned && reload_ticks >= reload_time)
+        {
+            SoundManagerScript.PlaySound("Reload");
+            reload = true;
+            panned = false;
+            reload_ticks = 0.0f;
+            ReloadUI.SetActive(false);
         }
     }
 
@@ -85,8 +115,6 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            Debug.Log(hit.transform.name);
-
             Enemy enemy = hit.transform.GetComponent<Enemy>();
 
             if (enemy != null)
@@ -149,5 +177,28 @@ public class Gun : MonoBehaviour
         }
 
         return dragged;
+    }
+
+    bool Panned()
+    {
+        bool panned = false;
+        
+        if(Input.touchCount > 0)
+        {
+            if(Input.touchCount != 1)
+            {
+                trackedFinger1 = Input.GetTouch(0);
+                trackedFinger2 = Input.GetTouch(1);
+
+                if((trackedFinger1.phase == TouchPhase.Moved && trackedFinger2.phase == TouchPhase.Moved)
+                    && Vector2.Distance(trackedFinger1.position, trackedFinger2.position) <= (Screen.dpi * maxDistance))
+                {
+                    Debug.Log("Two finger pan");
+                    panned = true;
+                }
+            }
+        }
+
+        return panned;
     }
 }

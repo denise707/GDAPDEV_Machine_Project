@@ -330,6 +330,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3757771332765732600, guid: 4a0de378f23d8294aa6fcbb3830870a4, type: 3}
+      propertyPath: m_Text
+      value: SWITCH SHOT
+      objectReference: {fileID: 0}
     - target: {fileID: 3757771332986997367, guid: 4a0de378f23d8294aa6fcbb3830870a4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

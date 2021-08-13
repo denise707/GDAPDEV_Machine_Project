@@ -294,7 +294,7 @@ public class ShopSystem : MonoBehaviour
     {
         SoundManagerScript.PlaySound("Button");
         weaponsys.Upgrade(item_name, damage_up, damage_cost, magazine_up, magazine_cost);
-        GameSystem.credits -= damage_cost;
+        GameSystem.credits -= damage_cost + magazine_cost;
         upgrade_pop_up.SetActive(false);
     }
 
@@ -314,15 +314,15 @@ public class ShopSystem : MonoBehaviour
         switch (damage_up)
         {
             case 10: damage_cost = 0; break;
-            case 20: damage_cost = 100; break;
-            case 30: damage_cost = 200; break;
-            case 40: damage_cost = 300; break;
-            case 50: damage_cost = 400; break;
-            case 60: damage_cost = 500; break;
-            case 70: damage_cost = 600; break;
-            case 80: damage_cost = 700; break;
-            case 90: damage_cost = 800; break;
-            case 100: damage_cost = 900; break;
+            case 20: damage_cost = 300; break;
+            case 30: damage_cost = 500; break;
+            case 40: damage_cost = 800; break;
+            case 50: damage_cost = 1000; break;
+            case 60: damage_cost = 1200; break;
+            case 70: damage_cost = 1400; break;
+            case 80: damage_cost = 1600; break;
+            case 90: damage_cost = 2000; break;
+            case 100: damage_cost = 2500; break;
         }
 
         if (damage_up == weaponsys.GetStats(item_name).damage_amount){
@@ -340,9 +340,9 @@ public class ShopSystem : MonoBehaviour
         {
             case 10: magazine_cost = 0; break;
             case 20: magazine_cost = 200; break;
-            case 30: magazine_cost = 300; break;
-            case 40: magazine_cost = 500; break;
-            case 50: magazine_cost = 1200; break;
+            case 30: magazine_cost = 1000; break;
+            case 40: magazine_cost = 1500; break;
+            case 50: magazine_cost = 2000; break;
         }
 
         if (magazine_up == weaponsys.GetStats(item_name).magazine_size)
