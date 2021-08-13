@@ -14,7 +14,7 @@ public class GameSystem : MonoBehaviour
     public static int score = 0;
     [SerializeField] private GameObject Score_Holder;
 
-    public static int credits = 500;
+    public static int credits = 0;
     [SerializeField] private Text Credit_Holder;
 
     //Level
@@ -24,9 +24,10 @@ public class GameSystem : MonoBehaviour
     public static bool next = false;
     bool going_next_level = false;
     bool swiped = false;
-    public static int enemy_increment = 0;
+    public static int enemy_increment = 3;
     int wave_increment = 0;
     int game_result = 0; //1 - win, 2 - lose
+    bool end_level = false;
 
     //Backgrounds
     [SerializeField] GameObject Wave_1_BG;
@@ -63,9 +64,11 @@ public class GameSystem : MonoBehaviour
         next = false;
         going_next_level = false;
         swiped = false;
-        enemy_increment = 0;
+        enemy_increment = 5;
         wave_increment = 0;
         game_result = 0;
+        end_level = false;
+        
 }
 
     // Update is called once per frame
@@ -76,7 +79,13 @@ public class GameSystem : MonoBehaviour
         if (health <= 0)
         {
             game_result = 2;
+            end_level = true;
         }
+
+        //if (wave >= 4)
+        //{
+        //    game_result = 1;
+        //}
 
         if (game_result == 0)
         {
@@ -107,11 +116,12 @@ public class GameSystem : MonoBehaviour
                             Wave_2_BG.SetActive(false);
                             Wave_3_BG.SetActive(true);
                             boss_level = true;
+                            wave_increment = 2;
                             break;
                     }
 
                     //Total of 3 waves each (> 1);
-                    if (wave_increment > -1)
+                    if (wave_increment > 1)
                     {
                         wave++;
                         wave_increment = 0;
@@ -131,7 +141,7 @@ public class GameSystem : MonoBehaviour
                     if (swiped)
                     {
                         going_next_level = false;
-                        enemy_increment += 2;
+                        enemy_increment += 8;
                     }
                 }
             }            
@@ -146,6 +156,7 @@ public class GameSystem : MonoBehaviour
 
         if ((game_result == 1 || game_result == 2) && Tapped())
         {
+            //NextSceneAfterWait();
             SceneManager.LoadScene("Title Scene");
         }
     }
@@ -196,7 +207,7 @@ public class GameSystem : MonoBehaviour
             else if(trackedFinger1.phase == TouchPhase.Ended)
             {
                 endPoint = trackedFinger1.position;
-                if(gestureTime <= swipeTime && Vector2.Distance(startPoint, endPoint) >= Screen.dpi * +minSwipeDistance)
+                if(gestureTime <= swipeTime && Vector2.Distance(startPoint, endPoint) >= Screen.dpi * minSwipeDistance)
                 {
                     Debug.Log("Swipe!");
                     Instructions.SetActive(false);
@@ -239,5 +250,12 @@ public class GameSystem : MonoBehaviour
             }
         }
         return tapped;
+    }
+
+    IEnumerator NextSceneAfterWait()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        SceneManager.LoadScene("Title Scene");
     }
 }

@@ -32,22 +32,26 @@ public class UICallbackScript : MonoBehaviour
         SoundManagerScript.PlaySound("Button");
         gameMenu.SetActive(false);
         shopMenu.SetActive(true);
+        Time.timeScale = 0;
     }
     public void onReturn()
     {
         SoundManagerScript.PlaySound("Button");
         gameMenu.SetActive(true);
         shopMenu.SetActive(false);
+        Time.timeScale = 1;
     }
     public void openOptions(GameObject options)
     {
         options.SetActive(true);
         gameMenu.SetActive(false);
+        Time.timeScale = 0;
     }
 
     public void closeOptions(GameObject options)
     {
         options.SetActive(false);
         gameMenu.SetActive(true);
+        Time.timeScale = 1;
     }
 }

@@ -97,7 +97,7 @@ public class Enemy : MonoBehaviour
         if (!damage_received)
         {
             GameSystem.score += 50;
-            GameSystem.credits += 50;
+            GameSystem.credits += 10;
             damage_received = true;
         }      
     }
