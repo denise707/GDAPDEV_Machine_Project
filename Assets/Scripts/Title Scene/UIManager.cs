@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     // Start is called before the first frame update
+
     void Start()
     {
         
@@ -23,9 +24,20 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
+   
     public void onExit()
     {
         Debug.Log("Exit Game");
         Application.Quit();
+    }
+
+    public void onCloseWindow(GameObject name)
+    {
+        name.SetActive(false);
+    }
+
+    public void onOpenWindow(GameObject name)
+    {
+        name.SetActive(true);
     }
 }
