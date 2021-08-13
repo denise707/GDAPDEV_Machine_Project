@@ -19,4 +19,8 @@ public class Permanent : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    public void OnLevelSelectTrigger(GameObject name)
+    {
+        Destroy(name.gameObject);
+    }
 }

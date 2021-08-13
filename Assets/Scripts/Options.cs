@@ -10,12 +10,15 @@ public class Options : MonoBehaviour
     public static bool unli_ammo = false;
     [SerializeField] GameObject Joystick;
     [SerializeField] GameObject OptionsUI;
+    [SerializeField] GameObject LevelSelection;
+    [SerializeField] GameObject GameUI;
 
     // Start is called before the first frame update
     void Start()
     {
         aim_mode = true;
         unli_ammo = false;
+        LevelSelection.SetActive(false);
     }
 
     // Update is called once per frame
@@ -52,10 +55,36 @@ public class Options : MonoBehaviour
         debug.SetActive(false);
     }
 
+    public void OnOpenLevelSelect()
+    {
+        LevelSelection.SetActive(true);
+    }
+    public void OnCloseLevelSelect()
+    {
+        LevelSelection.SetActive(false);
+    }
+
 
     public void BackMainMenu()
     {
+        GameUI.SetActive(true);
         SceneManager.LoadScene("Title Scene");
+    }
+
+    public void OnLoadLevelOne()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Level 1");
+    }
+
+    public void OnLoadLevelTwo()
+    {
+        //SceneManager.LoadScene("Level 2");
+    }
+
+    public void OnLoadLevelThree()
+    {
+        //SceneManager.LoadScene("Level 3");
     }
 
     public void OnMaxHealth(Toggle t)
@@ -93,5 +122,6 @@ public class Options : MonoBehaviour
             unli_ammo = false;
         }
     }
+
 
 }
